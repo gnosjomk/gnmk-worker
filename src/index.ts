@@ -286,7 +286,8 @@ async function downloadFile(request: Request, env: Env, filename: string): Promi
   }
 
   try {
-    const object = await env.FILE_BUCKET.get("2024 Årsmöte GMF.pdf");
+    const decodedFilename = decodeURIComponent(filename);
+    const object = await env.FILE_BUCKET.get(decodedFilename);
     
     if (!object) {
       return jsonResponse({ error: 'File not found' }, 404);
@@ -296,7 +297,7 @@ async function downloadFile(request: Request, env: Env, filename: string): Promi
     const headers = new Headers();
     headers.set('Content-Type', object.httpMetadata?.contentType || 'application/octet-stream');
     headers.set('Content-Length', object.size.toString());
-    headers.set('Content-Disposition', `attachment; filename="${filename}"`);
+    headers.set('Content-Disposition', `attachment; filename="${decodedFilename}"`);
     
     // Add CORS headers
     Object.entries(CORS_HEADERS).forEach(([key, value]) => {
