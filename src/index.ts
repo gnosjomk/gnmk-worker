@@ -1,24 +1,3 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
-
-// export default {
-// 	async fetch(request, env, ctx): Promise<Response> {
-// 		return new Response('Hello World!');
-// 	},
-// } satisfies ExportedHandler<Env>;
-
-// _--------------------------
-
 // Cloudflare Worker for Members Website Backend - TypeScript Version
 // Handles authentication, session management, rate limiting, and file operations
 
@@ -359,6 +338,13 @@ async function verifySession(request: Request, env: Env): Promise<AuthResult> {
 }
 
 function getSessionToken(request: Request): string | null {
+  // First try Authorization header (for cross-origin requests)
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    return authHeader.substring(7);
+  }
+  
+  // Fallback to cookie (for same-origin requests)
   const cookieHeader = request.headers.get('Cookie');
   if (!cookieHeader) return null;
 
