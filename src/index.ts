@@ -286,7 +286,7 @@ async function downloadFile(request: Request, env: Env, filename: string): Promi
   }
 
   try {
-    const object = await env.FILE_BUCKET.get(filename);
+    const object = await env.FILE_BUCKET.get("2024 Årsmöte GMF.pdf");
     
     if (!object) {
       return jsonResponse({ error: 'File not found' }, 404);
