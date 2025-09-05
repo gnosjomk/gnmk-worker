@@ -15,36 +15,29 @@
                 <button id="logoutBtn" class="btn btn-secondary">Logout</button>
             </div>
         </header>
-        
         <main>
             <div id="loadingMessage" class="loading-message">
                 Loading files...
             </div>
-            
             <div id="errorMessage" class="error-message" style="display: none;"></div>
-            
             <div id="filesSection" style="display: none;">
                 <section class="files-section">
                     <h2>Shared Files</h2>
                     <p>Welcome to the members area. Below are the files available for download.</p>
-                    
                     <div id="filesList" class="files-list">
                         <!-- Files will be loaded here dynamically -->
                     </div>
                 </section>
             </div>
-            
             <div id="noFilesMessage" class="no-files-message" style="display: none;">
                 <p>No files are currently available.</p>
             </div>
         </main>
-        
         <footer>
             <p>&copy; 2025 Members Website. All rights reserved.</p>
         </footer>
     </div>
-    
-    <script src="../../src/content/scripts/main.js"></script>
+    <script src="../scripts/main.js"></script>
     <script>
         // Initialize members area
         document.addEventListener('DOMContentLoaded', function() {
