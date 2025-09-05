@@ -295,12 +295,6 @@ function escapeHtml(text) {
 
 // Auto-check authentication on protected pages
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize session token from storage
-    const session = getStoredSession();
-    if (session) {
-        sessionToken = session.token;
-    }
-    
     const currentPath = window.location.pathname;
     
     // If on members page, ensure user is authenticated
