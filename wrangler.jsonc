@@ -6,7 +6,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "gnmk-worker",
 	"main": "src/index.ts",
-	"compatibility_date": "2025-09-04",
+	"compatibility_date": "2025-08-29",
 	"observability": {
 		"enabled": true
 	},
@@ -27,7 +27,8 @@
 	 */
 	"vars": {
 		"SESSION_DURATION_HOURS": 24,
-		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10
+		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10,
+		"GNMK_MEMBERS_PASSWORD": "test"
 	},
 	/**
 	 * Note: Use secrets to store sensitive data.
@@ -46,14 +47,14 @@
 
 	"kv_namespaces": [
 		{
-			"binding": "members-sessions",
+			"binding": "SESSIONS_KV",
 			"id": "43a2c19cfd9e44acb4aacb61e7a688a3"
 		}
 	],
 
 	"r2_buckets": [
 		{
-			"binding": "gnmk-files",
+			"binding": "FILE_BUCKET",
 			"bucket_name": "gnmk-files"
 		}
 	]

@@ -8,6 +8,7 @@ interface Env {
   RATE_LIMIT_REQUESTS_PER_MINUTE?: string;
   SESSIONS_KV: KVNamespace;
   FILE_BUCKET: R2Bucket;
+  GNMK_MEMBERS_PASSWORD?: string;
 }
 
 // Configuration types
@@ -147,8 +148,9 @@ async function handleLogin(request: Request, env: Env): Promise<Response> {
       return jsonResponse({ error: 'Password is required' }, 400);
     }
 
+    console.log(env.GNMK_MEMBERS_PASSWORD);
     // Check password against environment variable
-    if (password !== env.MEMBER_PASSWORD) {
+    if (password !== env.GNMK_MEMBERS_PASSWORD) {
       // Update rate limit on failed attempt
       await updateRateLimit(env.SESSIONS_KV, clientIP);
       return jsonResponse({ error: 'Invalid password' }, 401);
