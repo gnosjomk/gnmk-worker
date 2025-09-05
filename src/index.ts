@@ -148,7 +148,6 @@ async function handleLogin(request: Request, env: Env): Promise<Response> {
       return jsonResponse({ error: 'Password is required' }, 400);
     }
 
-    console.log(env.GNMK_MEMBERS_PASSWORD);
     // Check password against environment variable
     if (password !== env.GNMK_MEMBERS_PASSWORD) {
       // Update rate limit on failed attempt

@@ -27,8 +27,7 @@
 	 */
 	"vars": {
 		"SESSION_DURATION_HOURS": 24,
-		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10,
-		"GNMK_MEMBERS_PASSWORD": "test"
+		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10
 	},
 	/**
 	 * Note: Use secrets to store sensitive data.
