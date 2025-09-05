@@ -1,45 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Member Login</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Member Login</h1>
-        </header>
-        <main>
-            <div class="login-form">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <div id="errorMessage" class="error-message" style="display: none;"></div>
-                    <div id="loadingMessage" class="loading-message" style="display: none;">
-                        Authenticating...
-                    </div>
-                </form>
-                <div class="back-link">
-                    <a href="/">← Back to Home</a>
-                </div>
-            </div>
-        </main>
-        <footer>
-            <p>&copy; 2025 Members Website. All rights reserved.</p>
-        </footer>
-    </div>
-    <script src="../scripts/main.js"></script>
-    <script>
-        // Initialize login form
-        document.addEventListener('DOMContentLoaded', function() {
-            initLoginForm();
-        });
-    </script>
-</body>
-</html>
+---
+layout: base.njk
+title: Member Login
+---
+
+# Logga in
+
+<form id="loginForm">
+  <label for="password">Lösenord:</label>
+  <input type="password" id="password" name="password" required>
+  <button type="submit" class="btn btn-primary">Logga in</button>
+  <div id="errorMessage" class="error-message" style="display: none;"></div>
+  <div id="loadingMessage" class="loading-message" style="display: none;">
+    Autentiserar...
+  </div>
+</form>
+
+<script src="../scripts/main.js"></script>
+<script>
+  // Initialize login form
+  document.addEventListener('DOMContentLoaded', function() {
+    initLoginForm();
+  });
+</script>
