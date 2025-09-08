@@ -104,8 +104,8 @@ async function handleApiRequest(request: Request, env: Env, path: string): Promi
   
   if (segments[1] === 'auth') {
     return await handleAuth(request, env, segments[2]);
-  } else if (segments[1] === 'files') {
-    return await handleFiles(request, env, segments.slice(2));
+  } else if (segments[1] === 'members' && segments[2] === 'files') {
+    return await handleFiles(request, env, segments.slice(3));
   }
   
   return jsonResponse({ error: 'Endpoint not found' }, 404);

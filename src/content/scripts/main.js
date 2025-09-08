@@ -83,7 +83,7 @@ async function checkAuth() {
 }
 
 async function getFiles() {
-    return await apiRequest('/files');
+    return await apiRequest('/members/files');
 }
 
 async function downloadFile(filename) {
