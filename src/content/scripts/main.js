@@ -89,9 +89,9 @@ async function getPublicFiles() {
     return await apiRequest('/public/files');
 }
 
-async function downloadFile(filename) {
+async function downloadFile(filename, members) {
     try {
-        const response = await fetch(`${API_BASE}/files/${encodeURIComponent(filename)}`);
+        const response = await fetch(`${API_BASE}/${members ? "members": "public"}/files/${encodeURIComponent(filename)}`);
         
         if (!response.ok) {
             throw new Error('Failed to download file');
@@ -239,7 +239,7 @@ async function loadFiles(members) {
         
         // Create file items
         files.forEach(file => {
-            const fileItem = createFileItem(file);
+            const fileItem = createFileItem(file, members);
             filesList.appendChild(fileItem);
         });
         
@@ -251,7 +251,7 @@ async function loadFiles(members) {
     }
 }
 
-function createFileItem(file) {
+function createFileItem(file, members) {
     const item = document.createElement('div');
     item.className = 'file-item';
     
@@ -268,7 +268,7 @@ function createFileItem(file) {
             </div>
         </div>
         <div class="file-actions">
-            <button class="btn btn-primary btn-small" onclick="downloadFile('${escapeHtml(file.name)}')">
+            <button class="btn btn-primary btn-small" onclick="downloadFile('${escapeHtml(file.name)}', ${members})">
                 Download
             </button>
         </div>
