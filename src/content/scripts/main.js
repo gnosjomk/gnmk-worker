@@ -82,8 +82,11 @@ async function checkAuth() {
     return await apiRequest('/auth/check');
 }
 
-async function getFiles() {
+async function getMemberFiles() {
     return await apiRequest('/members/files');
+}
+async function getPublicFiles() {
+    return await apiRequest('/public/files');
 }
 
 async function downloadFile(filename) {
@@ -167,7 +170,13 @@ function initMembersArea() {
     }
     
     // Load files
-    loadFiles();
+    loadFiles(true);
+}
+
+// Members area functionality
+function initPublicFilesArea() {
+    // Load files
+    loadFiles(false);
 }
 
 async function checkAuthentication() {
@@ -200,7 +209,7 @@ async function handleLogout() {
     }
 }
 
-async function loadFiles() {
+async function loadFiles(members) {
     const filesSection = document.getElementById('filesSection');
     const loadingMessage = document.getElementById('loadingMessage');
     const errorMessage = document.getElementById('errorMessage');
@@ -210,8 +219,13 @@ async function loadFiles() {
     try {
         hideError();
         showElement('loadingMessage');
-        
-        const files = await getFiles();
+
+        let files;
+        if (members) {
+            files = await getMemberFiles();
+        } else {
+            files = await getPublicFiles();
+        }
         
         hideElement('loadingMessage');
         

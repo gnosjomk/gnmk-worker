@@ -106,6 +106,8 @@ async function handleApiRequest(request: Request, env: Env, path: string): Promi
     return await handleAuth(request, env, segments[2]);
   } else if (segments[1] === 'members' && segments[2] === 'files') {
     return await handleFiles(request, env, segments.slice(3));
+  } else if (segments[1] === 'public' && segments[2] === 'files') {
+    return await handleFiles(request, env, segments.slice(3));
   }
   
   return jsonResponse({ error: 'Endpoint not found' }, 404);
@@ -241,39 +243,51 @@ async function handleAuthCheck(request: Request, env: Env): Promise<Response> {
 
 // File handlers
 async function handleFiles(request: Request, env: Env, pathSegments: string[]): Promise<Response> {
-  // Verify authentication first
-  const authResult = await verifySession(request, env);
-  if (!authResult.valid) {
-    return jsonResponse({ error: 'Not authenticated' }, 401);
+  // Determine if this is a members or public endpoint
+  const url = new URL(request.url);
+  const isMembers = url.pathname.startsWith('/api/members/files');
+  const isPublic = url.pathname.startsWith('/api/public/files');
+
+  // Auth required for members, not for public
+  if (isMembers) {
+    const authResult = await verifySession(request, env);
+    if (!authResult.valid) {
+      return jsonResponse({ error: 'Not authenticated' }, 401);
+    }
   }
 
+  // Only allow access to files in the correct folder
+  const allowedPrefix = isMembers ? 'members/' : 'public/';
+
   if (pathSegments.length === 0) {
-    // List files
-    return await listFiles(request, env);
+    // List files with allowed prefix only
+    return await listFiles(request, env, allowedPrefix);
   } else if (pathSegments.length === 1) {
-    // Download specific file
-    return await downloadFile(request, env, pathSegments[0]);
+    // Download specific file, only if it starts with allowed prefix
+    const filename = pathSegments[0];
+    if (!filename.startsWith(allowedPrefix)) {
+      return jsonResponse({ error: 'File not allowed' }, 403);
+    }
+    return await downloadFile(request, env, filename);
   }
-  
+
   return jsonResponse({ error: 'Invalid file request' }, 400);
 }
 
-async function listFiles(request: Request, env: Env): Promise<Response> {
+async function listFiles(request: Request, env: Env, allowedPrefix: string = ''): Promise<Response> {
   if (request.method !== 'GET') {
     return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
   try {
-    const objects = await env.FILE_BUCKET.list();
-    
+    // Only list files with allowedPrefix
+    const objects = await env.FILE_BUCKET.list({ prefix: allowedPrefix });
     const files: FileInfo[] = objects.objects.map(obj => ({
       name: obj.key,
       size: obj.size,
       lastModified: obj.uploaded.toISOString(),
     }));
-
     return jsonResponse(files);
-    
   } catch (error) {
     console.error('List files error:', error);
     return jsonResponse({ error: 'Failed to list files' }, 500);
@@ -287,28 +301,24 @@ async function downloadFile(request: Request, env: Env, filename: string): Promi
 
   try {
     const decodedFilename = decodeURIComponent(filename);
+    // Only allow download if filename starts with correct prefix (already checked in handleFiles)
     const object = await env.FILE_BUCKET.get(decodedFilename);
-    
     if (!object) {
       return jsonResponse({ error: 'File not found' }, 404);
     }
-
     // Stream the file content
     const headers = new Headers();
     headers.set('Content-Type', object.httpMetadata?.contentType || 'application/octet-stream');
     headers.set('Content-Length', object.size.toString());
     headers.set('Content-Disposition', `attachment; filename="${decodedFilename}"`);
-    
     // Add CORS headers
     Object.entries(CORS_HEADERS).forEach(([key, value]) => {
       headers.set(key, value);
     });
-
     return new Response(object.body, {
       headers,
       status: 200,
     });
-    
   } catch (error) {
     console.error('Download file error:', error);
     return jsonResponse({ error: 'Failed to download file' }, 500);
