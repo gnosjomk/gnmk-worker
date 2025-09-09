@@ -257,7 +257,7 @@ async function handleFiles(request: Request, env: Env, pathSegments: string[]): 
   }
 
   // Only allow access to files in the correct folder
-  const allowedPrefix = isMembers ? 'members/' : 'public/';
+  const allowedPrefix = isMembers ? 'members' : 'public';
 
   if (pathSegments.length === 0) {
     // List files with allowed prefix only
@@ -265,7 +265,8 @@ async function handleFiles(request: Request, env: Env, pathSegments: string[]): 
   } else if (pathSegments.length === 1) {
     // Download specific file, only if it starts with allowed prefix
     const filename = pathSegments[0];
-    if (!filename.startsWith(allowedPrefix)) {
+    if (!decodeURI(filename).startsWith(allowedPrefix)) {
+      console.log("file name: ", decodeURI(filename));
       return jsonResponse({ error: 'File not allowed' }, 403);
     }
     return await downloadFile(request, env, filename);

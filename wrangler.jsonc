@@ -59,7 +59,8 @@
 	"r2_buckets": [
 		{
 			"binding": "FILE_BUCKET",
-			"bucket_name": "gnmk-files"
+			"bucket_name": "gnmk-files",
+			"experimental_remote": true,
 		}
 	]
 }
