@@ -5,6 +5,10 @@ title: Medlemssida
 
 # Medlemssida
 
+## Kalender
+
+<iframe src="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=Europe%2FStockholm&showPrint=0&src=Ym9AZ25vc2pvbWsuc2U&color=%23d81b60" style="border:solid 1px #777" width="1000" height="800" frameborder="0" scrolling="no"></iframe>
+
 ## Filer
 
 <div id="loadingMessage" class="loading-message">
