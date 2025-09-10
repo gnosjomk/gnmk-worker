@@ -3,9 +3,7 @@ layout: base.njk
 title: Filer
 ---
 
-# Filer
-
-## Filer
+# Predikningar
 
 <div id="loadingMessage" class="loading-message">
     Laddar filer...
@@ -23,11 +21,8 @@ title: Filer
     <p>Det finns inga filer tillgängliga.</p>
 </div>
 
-<button id="logoutBtn" class="btn btn-secondary">Logga ut</button>
-
 <script src="../scripts/main.js"></script>
 <script>
-    // Initialize members area
     document.addEventListener('DOMContentLoaded', function() {
         initPublicFilesArea();
     });

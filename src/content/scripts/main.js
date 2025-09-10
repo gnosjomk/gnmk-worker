@@ -147,7 +147,7 @@ function initLoginForm() {
             await login(password);
             
             // Redirect to members area
-            window.location.href = '/members';
+            window.location.href = '/medlem';
         } catch (error) {
             showError(error.message);
             passwordInput.value = '';
@@ -184,7 +184,7 @@ async function checkAuthentication() {
         await checkAuth();
     } catch (error) {
         // Not authenticated, redirect to login
-        window.location.href = '/login';
+        window.location.href = '/logga-in';
     }
 }
 
@@ -192,7 +192,7 @@ async function checkAuthAndRedirect() {
     try {
         await checkAuth();
         // Already authenticated, redirect to members area
-        window.location.href = '/members';
+        window.location.href = '/medlem';
     } catch (error) {
         // Not authenticated, stay on current page
     }
@@ -312,12 +312,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
     
     // If on members page, ensure user is authenticated
-    if (currentPath === '/members') {
+    if (currentPath === '/medlem') {
         checkAuthentication();
     }
     
     // If on login page, redirect if already authenticated
-    if (currentPath === '/login') {
+    if (currentPath === '/logga-in') {
         checkAuthAndRedirect();
     }
 });
