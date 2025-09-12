@@ -1,4 +1,15 @@
 module.exports = function(eleventyConfig) {
+
+  eleventyConfig.addCollection("activities", async (collectionApi) => {
+    let items =  collectionApi.getFilteredByGlob("src/content/pages/activities/*.md");
+    items.sort((a, b) => a.data.order - b.data.order)
+    console.log("Items:");
+    items.forEach(item => {
+      console.log("-", item.inputPath, "| title:", item.data.title);
+    });
+    return items;
+  });
+
   // Copy static assets through to _site without processing
   eleventyConfig.addPassthroughCopy({"src/content/styles": "styles"});
   eleventyConfig.addPassthroughCopy({"src/content/scripts": "scripts"});
