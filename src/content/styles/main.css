@@ -29,18 +29,17 @@ header {
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
-  padding: 1rem;
+  padding: 1rem 5rem;
   border-bottom: 1px solid #ddd;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   gap: 1rem;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-header img {
-    width: 200px;
-    height: 100px;
+header a img {
+    height: 4rem;
     margin: 0;
 }
 
