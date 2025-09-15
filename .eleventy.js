@@ -1,7 +1,7 @@
 module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("activities", async (collectionApi) => {
-    let items =  collectionApi.getFilteredByGlob("src/content/pages/activities/*.md");
+    let items =  collectionApi.getFilteredByGlob("src/content/pages/verksamheter/*.md");
     items.sort((a, b) => a.data.order - b.data.order)
     console.log("Items:");
     items.forEach(item => {

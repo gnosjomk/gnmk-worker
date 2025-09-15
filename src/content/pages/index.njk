@@ -12,13 +12,19 @@ title: Hem
 </div>
 
 {% if collections.activities | length %}
-  <h2>Våra verksamheter</h2>
+  <h2>
+    <a href="verksamheter">
+      Våra verksamheter
+    </a>
+  </h2>
   <section class="activities">
     {% for item in collections.activities %}
-      <section>
-        <h3>{{ item.data.title }}</h3>
-        <p>{{ item.data.blurb }}</p>
-      </section>
+      <a href="{{item.url}}">
+        <section>
+            <h3>{{ item.data.title }}</h3>
+            <p>{{ item.data.blurb }}</p>
+        </section>
+      </a>
     {% endfor %}
   </section>
 {% endif %}

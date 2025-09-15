@@ -105,7 +105,7 @@ main > * {
   flex-wrap: wrap;
 }
 
-.activities > section {
+.activities > a > section {
   padding: 1rem;
   border: 1px solid #e6e6e6;
   background-size: cover;

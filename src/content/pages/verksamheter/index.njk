@@ -1,0 +1,17 @@
+---
+layout: base.njk
+title: Verksamheter
+---
+{% if collections.activities | length %}
+  <h1>Våra verksamheter</h1>
+  <section class="activities">
+    {% for item in collections.activities %}
+      <section>
+        <a href="{{item.url}}">
+            <h2>{{ item.data.title }}</h2>
+            <p>{{ item.data.blurb }}</p>
+        </a>
+      </section>
+    {% endfor %}
+  </section>
+{% endif %}
