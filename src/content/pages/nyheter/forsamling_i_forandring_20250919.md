@@ -2,6 +2,7 @@
 title: Församling i förändring
 blurb: Höstens träffar med missionsledare Ulf Häggqvist
 expires: 2025-11-21
+date: 2025-11-04
 ---
 
 ![](/images/forsamling-i-forandring_webb.jpg)

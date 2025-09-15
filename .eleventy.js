@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
     return collectionApi.getFilteredByGlob("src/content/pages/nyheter/*.md").filter(item => {
       const expires = item.data.expires ? dayjs(item.data.expires) : null;
       return !expires || expires.isAfter(now);
-    });
+    }).sort((a, b) => a.data.date - b.data.date);
   });
 
   // Copy static assets through to _site without processing
