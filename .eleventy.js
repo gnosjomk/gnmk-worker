@@ -1,3 +1,5 @@
+const dayjs = require("dayjs");
+
 module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("activities", async (collectionApi) => {
@@ -8,6 +10,15 @@ module.exports = function(eleventyConfig) {
       console.log("-", item.inputPath, "| title:", item.data.title);
     });
     return items;
+  });
+
+  eleventyConfig.addCollection("news", async (collectionApi) => {
+    const now = dayjs();
+
+    return collectionApi.getFilteredByGlob("src/content/pages/nyheter/*.md").filter(item => {
+      const expires = item.data.expires ? dayjs(item.data.expires) : null;
+      return !expires || expires.isAfter(now);
+    });
   });
 
   // Copy static assets through to _site without processing

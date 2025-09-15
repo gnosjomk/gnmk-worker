@@ -4,7 +4,7 @@ title: Hem
 ---
 
 <div class="hero">
-    <section class="content">
+    <section class="content content-center">
         <h1>Välkommen till Gnosjö Missionskyrka!</h1>
         <p> Vi vill erbjuda en öppen och generös gemenskap för alla oavsett bakgrund.<br />
         Vi tror att mötet med Jesus kan göra skillnad i våra liv.</p>
@@ -19,6 +19,24 @@ title: Hem
   </h2>
   <section class="activities">
     {% for item in collections.activities %}
+      <a href="{{item.url}}">
+        <section>
+            <h3>{{ item.data.title }}</h3>
+            <p>{{ item.data.blurb }}</p>
+        </section>
+      </a>
+    {% endfor %}
+  </section>
+{% endif %}
+
+{% if collections.news | length %}
+  <h2>
+    <a href="nyheter">
+      Nyheter
+    </a>
+  </h2>
+  <section class="news">
+    {% for item in collections.news %}
       <a href="{{item.url}}">
         <section>
             <h3>{{ item.data.title }}</h3>

@@ -38,6 +38,7 @@
 		"color-name": "^1.1.4",
 		"color-string": "^1.9.1",
 		"cookie": "^1.0.2",
+		"dayjs": "^1.11.18",
 		"debug": "^4.4.1",
 		"deep-eql": "^5.0.2",
 		"defu": "^6.1.4",
