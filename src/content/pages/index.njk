@@ -3,7 +3,7 @@ layout: base.njk
 title: Hem
 ---
 
-<div class="hero">
+<div class="hero home-div">
     <section class="content content-center">
         <h1>Välkommen till Gnosjö Missionskyrka!</h1>
         <p> Vi vill erbjuda en öppen och generös gemenskap för alla oavsett bakgrund.<br />
@@ -12,7 +12,7 @@ title: Hem
 </div>
 
 {% if collections.activities | length %}
-  <div>
+  <div class="home-div">
     <h2 class="content-center">
       <a class="undecorated-link" href="verksamheter">
         Våra verksamheter
@@ -32,7 +32,7 @@ title: Hem
 {% endif %}
 
 {% if collections.news | length %}
-  <div>
+  <div class="home-div">
     <h2 class="content-center">
       <a class="undecorated-link" href="nyheter">
         Nyheter

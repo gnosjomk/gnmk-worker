@@ -72,24 +72,27 @@ main > * {
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 2rem;
+}
+
+.home-div {
   width: 100%;
 }
 
-main > *:nth-child(odd) {
+.home-div:nth-child(odd) {
   background-color: #f1f1f1;
 }
 
 
-main > *:nth-child(odd) > section > a {
+.home-div:nth-child(odd) > section > a {
   background-color: white;
 }
 
-main > *:nth-child(even) {
+.home-div:nth-child(even) {
   background-color: white;
 }
 
 
-main > *:nth-child(even) > section > a {
+.home-div:nth-child(even) > section > a {
   background-color: #f1f1f1;
 }
 
@@ -114,7 +117,7 @@ main > *:nth-child(even) > section > a {
   max-width: 60rem;
 }
 
-.content-center {
+main > h1, .content-center {
   display: flex;
   flex-direction: column;
   align-items: center;
