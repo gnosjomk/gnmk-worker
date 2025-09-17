@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Allow: /style.css
+Allow: /main.css
 Allow: /script.js
 Disallow: /members
 Disallow: /login
