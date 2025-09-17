@@ -41,8 +41,10 @@ title: Hem
     <section class="news">
       {% for item in collections.news %}
         <a class="undecorated-link" href="{{item.url}}">
-          <h3>{{ item.data.title }}</h3>
-          <p>{{ item.data.blurb }}</p>
+          <section>
+            <h3>{{ item.data.title }}</h3>
+            <p>{{ item.data.blurb }}</p>
+          </section>
           {% if item.data.img %}
             <img src="/images/{{ item.data.img }}" />
           {% endif %}

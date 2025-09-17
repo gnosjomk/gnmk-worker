@@ -69,7 +69,28 @@ main {
 }
 
 main > * {
-  padding: 0 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 2rem;
+  width: 100%;
+}
+
+main > *:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+
+main > *:nth-child(odd) > section > a {
+  background-color: white;
+}
+
+main > *:nth-child(even) {
+  background-color: white;
+}
+
+
+main > *:nth-child(even) > section > a {
+  background-color: #f1f1f1;
 }
 
 .hero {
@@ -113,7 +134,6 @@ main > * {
 
 .activities > a > section {
   padding: 1rem;
-  border: 1px solid #e6e6e6;
   background-size: cover;
   background-position: center center;
 }
@@ -129,17 +149,18 @@ main > * {
 
 .news > a {
   min-height: 17rem;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   max-width: 21rem;
 }
 
-.news > a:hover {
-  background-color: rgb(248, 248, 248);;
+.news > a > section {
+  margin: 0 2rem;
+  flex-grow: 1;
 }
 
-.news > a > p {
+.news > a > section > p {
   overflow: hidden;
   max-height: 4.8rem;
 }
@@ -178,7 +199,6 @@ img {
 
 /* Footer */
 footer {
-  margin-top: 1rem;
   padding: 1rem;
   border-top: 1px solid #ddd;
   text-align: center;
