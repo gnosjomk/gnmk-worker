@@ -1,3 +1,31 @@
 <footer>
-  <p>&copy; 2025 GnMK</p>
+  <img src="/images/logo-full.svg" id="footer-logo"></img>
+
+  <a class="undecorated-link map-link" href="geo:0,0?q=Gnosjö+Missionskyrka+järnvägsgatan+37+Gnosjö"><address>
+    <h4>Gnosjö Missionskyrka</h4>
+    Järnvägsgatan 26<br />
+    335 30<br />
+    Gnosjö
+  </address></a>
+
+  <nav>
+    <h4>Meny</h4>
+    <a class="undecorated-link" href="/">Hem</a>
+    {% for item in collections.pages %}
+      <br />
+      <a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a>
+    {% endfor %}
+  </nav>
+
+  <section>
+    <h4>Ge en gåva</h4>
+    <table>
+      <tr>
+        <td>Swish</td><td>123 198 38 73</td>
+      </tr>
+      <tr>
+        <td>Bankgiro</td><td>493-0731</td>
+      </tr>
+    </table>
+  </section>
 </footer>

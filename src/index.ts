@@ -257,14 +257,18 @@ async function handleFiles(request: Request, env: Env, pathSegments: string[]): 
   }
 
   // Only allow access to files in the correct folder
-  const allowedPrefix = isMembers ? 'members' : 'public';
+  const allowedPrefix = isMembers ? 'members/' : 'public/';
 
-  if (pathSegments.length === 0) {
+  if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[1] === null)) {
     // List files with allowed prefix only
     return await listFiles(request, env, allowedPrefix);
-  } else if (pathSegments.length === 1) {
+  } else if (pathSegments.length == 1) {
+    // List files below a certain path
+    const path = decodeURI(pathSegments[0]);
+    return await listFiles(request, env, allowedPrefix + path);
+  } else if (pathSegments.length === 2 && pathSegments[0] === 'download') {
     // Download specific file, only if it starts with allowed prefix
-    const filename = pathSegments[0];
+    const filename = pathSegments[1];
     if (!decodeURI(filename).startsWith(allowedPrefix)) {
       console.log("file name: ", decodeURI(filename));
       return jsonResponse({ error: 'File not allowed' }, 403);
@@ -282,6 +286,7 @@ async function listFiles(request: Request, env: Env, allowedPrefix: string = '')
 
   try {
     // Only list files with allowedPrefix
+    console.log(allowedPrefix);
     const objects = await env.FILE_BUCKET.list({ prefix: allowedPrefix });
     const files: FileInfo[] = objects.objects.map(obj => ({
       name: obj.key,

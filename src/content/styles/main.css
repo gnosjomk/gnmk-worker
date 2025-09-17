@@ -41,14 +41,14 @@ header {
 }
 
 header a img {
-    height: 4rem;
-    margin: 0;
+  height: 4rem;
+  margin: 0;
 }
 
-nav {
+header nav {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  
 }
 
 .undecorated-link {
@@ -58,6 +58,11 @@ nav {
 
 .undecorated-link:hover {
   text-decoration: underline;
+}
+
+.map-link:hover {
+  text-decoration: none;
+  cursor: default;
 }
 
 main {
@@ -200,11 +205,30 @@ img {
   margin: 1rem 0;
 }
 
+table {
+  border-spacing: 1rem 0;
+  margin: 0 -1rem 1rem -1rem;
+}
+
 /* Footer */
 footer {
   padding: 1rem;
   border-top: 1px solid #ddd;
-  text-align: center;
+  /* text-align: center;
   font-size: 0.875rem;
-  color: #666;
+  color: #666; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+}
+
+
+#footer-logo {
+  margin-top: 1.5rem;
+  height: 4rem;
+}
+
+address {
+  font-style: normal;
 }

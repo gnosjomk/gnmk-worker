@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: Predikningar
+title: Utsikt
 order: 4
 ---
 
@@ -25,6 +25,6 @@ order: 4
 <script src="../scripts/main.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        initPublicFilesArea('predikningar');
+        initPublicFilesArea('utsikt');
     });
 </script>
