@@ -12,37 +12,42 @@ title: Hem
 </div>
 
 {% if collections.activities | length %}
-  <h2>
-    <a href="verksamheter">
-      Våra verksamheter
-    </a>
-  </h2>
-  <section class="activities">
-    {% for item in collections.activities %}
-      <a href="{{item.url}}">
-        <section>
-            <h3>{{ item.data.title }}</h3>
-            <p>{{ item.data.blurb }}</p>
-        </section>
+  <div>
+    <h2>
+      <a class="undecorated-link" href="verksamheter">
+        Våra verksamheter
       </a>
-    {% endfor %}
-  </section>
+    </h2>
+    <section class="activities">
+      {% for item in collections.activities %}
+        <a class="undecorated-link" href="{{item.url}}">
+          <section>
+              <h3>{{ item.data.title }}</h3>
+              <p>{{ item.data.blurb }}</p>
+          </section>
+        </a>
+      {% endfor %}
+    </section>
+  </div>
 {% endif %}
 
 {% if collections.news | length %}
-  <h2>
-    <a href="nyheter">
-      Nyheter
-    </a>
-  </h2>
-  <section class="news">
-    {% for item in collections.news %}
-      <a href="{{item.url}}">
-        <section>
-            <h3>{{ item.data.title }}</h3>
-            <p>{{ item.data.blurb }}</p>
-        </section>
+  <div>
+    <h2>
+      <a class="undecorated-link" href="nyheter">
+        Nyheter
       </a>
-    {% endfor %}
-  </section>
+    </h2>
+    <section class="news">
+      {% for item in collections.news %}
+        <a class="undecorated-link" href="{{item.url}}">
+          <h3>{{ item.data.title }}</h3>
+          <p>{{ item.data.blurb }}</p>
+          {% if item.data.img %}
+            <img src="/images/{{ item.data.img }}" />
+          {% endif %}
+        </a>
+      {% endfor %}
+    </section>
+  </div>
 {% endif %}
