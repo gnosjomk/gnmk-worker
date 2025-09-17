@@ -1,6 +1,7 @@
 ---
 layout: base.njk
-title: Filer
+title: Predikningar
+order: 4
 ---
 
 # Predikningar

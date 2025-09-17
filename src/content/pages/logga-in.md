@@ -1,6 +1,7 @@
 ---
 layout: base.njk
-title: Member Login
+title: Logga in
+eleventyExcludeFromCollections: true
 ---
 
 # Logga in

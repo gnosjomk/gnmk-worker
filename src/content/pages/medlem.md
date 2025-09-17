@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 title: Medlemssida
+order: 5
 ---
 
 # Medlemssida

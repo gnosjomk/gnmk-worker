@@ -4,11 +4,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("activities", async (collectionApi) => {
     let items =  collectionApi.getFilteredByGlob("src/content/pages/verksamheter/*.md");
-    items.sort((a, b) => a.data.order - b.data.order)
-    console.log("Items:");
-    items.forEach(item => {
-      console.log("-", item.inputPath, "| title:", item.data.title);
-    });
+    items.sort((a, b) => a.data.order - b.data.order);
     return items;
   });
 
@@ -19,6 +15,14 @@ module.exports = function(eleventyConfig) {
       const expires = item.data.expires ? dayjs(item.data.expires) : null;
       return !expires || expires.isAfter(now);
     }).sort((a, b) => a.data.date - b.data.date);
+  });
+  
+  eleventyConfig.addCollection("pages", async (collectionApi) => {
+    let rootPages =  collectionApi.getFilteredByGlob("src/content/pages/*.md");
+    let subPages =  collectionApi.getFilteredByGlob("src/content/pages/*/index.njk");
+    let items = rootPages.concat(subPages);
+    items.sort((a, b) => a.data.order - b.data.order);
+    return items;
   });
 
   // Copy static assets through to _site without processing

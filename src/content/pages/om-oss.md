@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 title: Om oss
+order: 1
 ---
 
 # Om oss

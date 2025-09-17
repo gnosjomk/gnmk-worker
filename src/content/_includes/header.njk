@@ -3,9 +3,11 @@
     <img src="/images/logo-full.svg"></img>
   </a>
 
-  <nav>
-    <a class="undecorated-link" href="/om-oss/">Om oss</a>
-    <a class="undecorated-link" href="/predikningar/"/">Predikningar</a>
-    <a class="undecorated-link" href="/medlem/"/">Medlemssida</a>
-  </nav>
+  {% if collections.pages | length %}
+    <nav>
+      {% for item in collections.pages %}
+        <a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
 </header>
