@@ -39,7 +39,7 @@ title: Hem
       </a>
     </h2>
     <section class="news">
-      {% for item in collections.news %}
+      {% for item in collections.news | limit(5) %}
         <a class="undecorated-link" href="{{item.url}}">
           <section>
             <h3>{{ item.data.title }}</h3>

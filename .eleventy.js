@@ -18,11 +18,17 @@ module.exports = function(eleventyConfig) {
   });
   
   eleventyConfig.addCollection("pages", async (collectionApi) => {
+    let homePage =  collectionApi.getFilteredByGlob("src/content/pages/index.njk");
     let rootPages =  collectionApi.getFilteredByGlob("src/content/pages/*.md");
     let subPages =  collectionApi.getFilteredByGlob("src/content/pages/*/index.njk");
-    let items = rootPages.concat(subPages);
+    let items = homePage.concat(rootPages).concat(subPages);
     items.sort((a, b) => a.data.order - b.data.order);
     return items;
+  });
+
+  // limit filter
+  eleventyConfig.addFilter("limit", function(array, limit) {
+    return array.slice(0, limit);
   });
 
   // Copy static assets through to _site without processing
