@@ -41,8 +41,6 @@ header {
 }
 
 .logo {
-  height: 5.6rem;
-  width: 24rem;
   text-decoration: none;
   color: inherit;
 
@@ -52,10 +50,10 @@ header {
   }
 
   h1 {
-    width:max-content;
-    position: relative;
-    top: -2.3rem;
-    right: -3.35rem;
+    font-weight: initial;
+    margin-top: -13px;
+    padding-left: 3.35rem;
+    margin-bottom: 0;
   }
 }
 
