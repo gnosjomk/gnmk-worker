@@ -147,10 +147,27 @@ main > h1, .content-center {
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+
+  a {
+    @media (max-width:480px)  {
+      width: calc((90vw - 1rem) / 2);
+    }
+    
+    @media (max-width:320px)  {
+      width: 90vw;
+    }
+
+    section {
+      margin: 1rem;
+      background-size: cover;
+      background-position: center center;
+      max-width: 15rem;
+    }
+  }
 }
 
 .activities > a > section {
-  padding: 1rem;
+  margin: 1rem;
   background-size: cover;
   background-position: center center;
   max-width: 15rem;
