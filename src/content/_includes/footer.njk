@@ -10,11 +10,11 @@
 
   <nav>
     <h4>Meny</h4>
-    <a class="undecorated-link" href="/">Hem</a>
-    {% for item in collections.pages %}
-      <br />
-      <a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a>
-    {% endfor %}
+    <table>
+      {% for item in collections.pages %}
+        <tr><td><a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a></td></tr>
+      {% endfor %}
+    </table>
   </nav>
 
   <section>
