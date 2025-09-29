@@ -1,6 +1,6 @@
 ---
 title: UV-scout
-blurb: För dig i grundskolan
+puff: För dig i grundskolan
 layout: base.njk
 ---
 

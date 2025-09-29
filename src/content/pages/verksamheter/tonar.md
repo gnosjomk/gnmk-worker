@@ -1,6 +1,6 @@
 ---
 title: Tonår
-blurb: För dig som är 13-19 år
+puff: För dig som är 13-19 år
 layout: base.njk
 ---
 

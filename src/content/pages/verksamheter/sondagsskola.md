@@ -1,6 +1,6 @@
 ---
 title: "Söndags\u00ADskola"
-blurb: Barnens egen gudstjänst. För dig som är 4-9 år
+puff: Barnens egen gudstjänst. För dig som är 4-9 år
 layout: base.njk
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Stickcafé
-blurb: Handarbete och gemenskap
+puff: Handarbete och gemenskap
 layout: base.njk
 ---
 

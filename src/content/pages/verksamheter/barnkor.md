@@ -1,5 +1,5 @@
 ---
 title: Barnkör
-blurb: Kom och sjung!
+puff: Kom och sjung!
 layout: base.njk
 ---
