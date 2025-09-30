@@ -1,14 +1,10 @@
----
-eleventyExcludeFromCollections: true
----
-
 # README
 
 Här finns information om hur man arbetar med hemsidan.
 
 ## Lathund
 
-- [Jag vill lägga upp en nyhet.](src/content/pages/nyheter/README.md)
+- [Jag vill lägga upp en nyhet.](src/content/pages/nyheter/README.md#jag-vill-lägga-upp-en-nyhet)
 - Jag vill ladda upp en fil till...
   - [...medlemssidan.]()
   - [...predikningar-sidan.]()

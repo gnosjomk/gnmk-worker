@@ -1,6 +1,8 @@
 const dayjs = require("dayjs");
 
 module.exports = function(eleventyConfig) {
+  // Ignore every README.md file in the repo
+	eleventyConfig.ignores.add("**/README.md");
 
   eleventyConfig.addCollection("activities", async (collectionApi) => {
     let items =  collectionApi.getFilteredByGlob("src/content/pages/verksamheter/*.md");

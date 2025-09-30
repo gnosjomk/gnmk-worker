@@ -1,7 +1,3 @@
----
-eleventyExcludeFromCollections: true
----
-
 # Nyheter
 
 Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
@@ -12,13 +8,19 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
 
 1.  Se till att du står i [mappen nyheter](). (Den mappen där du läser detta.)
 2.  Högt upp till höger hittar du knappen _Add file_. Tryck på den.
+
     ![alt text](../../../../doc_attachements/image.png)
+
 3.  I menyn som fälls ut, tryck på _Create new file_.
+
     ![alt text](../../../../doc_attachements/image-1.png)
+
 4.  Nu ska du ha fått upp en yta där du kan skriva in texten till filen. Ovanför
     den ser du en ruta där du skriver in namnet på filen. Välj ett beskrivande
     namn, och glöm inte att ha med filändelsen `.md`.
+
     ![alt text](../../../../doc_attachements/image-2.png)
+
 5.  Kopiera och fyll i den här mallen:
 
     ```
@@ -59,9 +61,13 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
     Du hittar mer info om hur du skriver i markdown-format
     [här](../../../../README.md#markdown).
 7.  Högt upp till höger hittar du knappen _Commit changes_. Tryck på den.
+
     ![alt text](../../../../doc_attachements/image-3.png)
-8.  I rutan som kommer upp, tryck på _Commit
-    changes_.![alt text](../../../../doc_attachements/image-4.png)
+
+8.  I rutan som kommer upp, tryck på _Commit changes_.
+
+    ![alt text](../../../../doc_attachements/image-4.png)
+
 9.  Vänta ett par minuter medan hemsidan byggs om. Verifiera därefter att allt
     ser bra ut. Verifiera...
     1. ...nyhetssektionen på startsidan.
@@ -75,7 +81,9 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
 1. Gå till filen du vill redigera, till exempel
    `src/content/pages/nyheter/exempel.md`.
 2. Högt upp till höger hittar du en knapp med en penna. Tryck på den.
+
    ![alt text](../../../../doc_attachements/image-5.png)
+
 3. Nu får du upp en yta där du kan redigera filen. Härifrån kan du följa stegen
    i [guiden om hur du lägger upp en ny nyhet](#jag-vill-lägga-upp-en-nyhet)
    från steg 4.
