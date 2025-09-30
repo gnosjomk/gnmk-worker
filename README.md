@@ -1,3 +1,7 @@
+---
+eleventyExcludeFromCollections: true
+---
+
 # README
 
 Här finns information om hur man arbetar med hemsidan.

@@ -11,10 +11,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addCollection("news", async (collectionApi) => {
     const now = dayjs();
 
-    return collectionApi.getFilteredByGlob("src/content/pages/nyheter/*.md").filter(item => {
-      const expires = item.data.expires ? dayjs(item.data.expires) : null;
-      return !expires || expires.isAfter(now);
-    }).sort((a, b) => a.data.date - b.data.date);
+    return collectionApi.getFilteredByGlob("src/content/pages/nyheter/*.md")
+      .filter(item => {
+        const expires = item.data.expires ? dayjs(item.data.expires) : null;
+        return !expires || expires.isAfter(now);
+      })
+      .sort((a, b) => a.data.date - b.data.date);
   });
   
   eleventyConfig.addCollection("pages", async (collectionApi) => {

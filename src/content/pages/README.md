@@ -1,3 +1,7 @@
+---
+eleventyExcludeFromCollections: true
+---
+
 # Pages
 
 Mappen `\src\content\pages` är där alla sidor bor.

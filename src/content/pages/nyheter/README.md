@@ -1,3 +1,7 @@
+---
+eleventyExcludeFromCollections: true
+---
+
 # Nyheter
 
 Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
