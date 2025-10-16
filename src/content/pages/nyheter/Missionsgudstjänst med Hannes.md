@@ -6,4 +6,4 @@ date: 2025-11-23
 img: 
 ---
 
-gv5gtvgt5
+Söndagen den 23 november kommer vår ungdomsledare Hannes Lindström berätta om sina äventyr i Jordanien. Varmt välkommen!
