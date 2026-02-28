@@ -52,15 +52,16 @@
 	"kv_namespaces": [
 		{
 			"binding": "SESSIONS_KV",
-			"id": "43a2c19cfd9e44acb4aacb61e7a688a3"
-		}
+			"id": "43a2c19cfd9e44acb4aacb61e7a688a3",
+			"preview_id": "d9db7b0070414af6bff1d18a387daa06"
+		},
 	],
 
 	"r2_buckets": [
 		{
 			"binding": "FILE_BUCKET",
 			"bucket_name": "gnmk-files",
-			"experimental_remote": true,
+			"preview_bucket_name": "preview"
 		}
 	]
 }
