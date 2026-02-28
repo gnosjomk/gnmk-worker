@@ -43,7 +43,7 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
     - `expires`: Det datum då nyheten inte längre ska visas på hemsidan. T.ex.,
       om nyheten gäller ett evenemang som äger rum 2025-09-29, bör sättas till
       dagen efter, alltså 2025-09-30. **Det är viktigt att datumet har just det
-      formatet: 20205-09-30.** Detta fält kan lämnas blankt, men då kommer
+      formatet: 2025-09-30.** Detta fält kan lämnas blankt, men då kommer
       nyheten aldrig att försvinna av sig självt.
     - `date`: Om nyheten är associerat med ett visst datum anger du det här. Det
       används för att nyheter om saker i närtid ska visas högre än om saker som
