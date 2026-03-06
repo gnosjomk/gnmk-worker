@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: "0 2 * * *"   # nightly at 02:00 UTC
   workflow_dispatch:      # allows manual trigger
 
 jobs:
@@ -13,6 +11,11 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
