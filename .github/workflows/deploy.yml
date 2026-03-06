@@ -2,7 +2,7 @@ name: Deploy Worker
 on:
   push:
     branches:
-      - main
+      - master
   schedule:
     - cron: "0 2 * * *"   # nightly at 02:00 UTC
   workflow_dispatch:      # allows manual trigger
