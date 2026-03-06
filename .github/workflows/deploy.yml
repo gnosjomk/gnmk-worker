@@ -21,3 +21,4 @@ jobs:
         with:
           apiToken: ${{ secrets.DEPLOY_WORKER_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: "~"
