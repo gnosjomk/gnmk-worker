@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - run: |
+        pwd
+        ls -la
+        cat wrangler.json
 
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
