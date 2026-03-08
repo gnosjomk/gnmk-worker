@@ -3,23 +3,18 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:      # allows manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+
     steps:
       - uses: actions/checkout@v4
-
-      - run: |
-        pwd
-        ls -la
-        cat wrangler.json
 
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.DEPLOY_WORKER_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: "~"
