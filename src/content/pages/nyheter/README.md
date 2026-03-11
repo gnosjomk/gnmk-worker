@@ -59,21 +59,28 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
     automatiskt att få som rubrik det du angett i fältet `title`. Däremot
     behöver du själv länka till bilden, om du vill ha den på nyhetens egen sida.
     Du hittar mer info om hur du skriver i markdown-format
-    [här](../../../../README.md#markdown).
-7.  Högt upp till höger hittar du knappen _Commit changes_. Tryck på den.
+    [här](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+
+    Om du vill du lägga till en bild på sidan:
+    
+    a. Ladda du upp bilden i mappen [images](../../images).
+    
+    b. Lägg följande där du vill ha bilden: `<img src="/images/[namnet på bilden inklusive filändelse]" />`
+    	
+8.  Högt upp till höger hittar du knappen _Commit changes_. Tryck på den.
 
     ![alt text](../../../../doc_attachements/image-3.png)
 
-8.  I rutan som kommer upp, tryck på _Commit changes_.
+9.  I rutan som kommer upp, tryck på _Commit changes_.
 
     ![alt text](../../../../doc_attachements/image-4.png)
 
-9.  Vänta ett par minuter medan hemsidan byggs om. Verifiera därefter att allt
+10.  Vänta ett par minuter medan hemsidan byggs om. Verifiera därefter att allt
     ser bra ut. Verifiera...
     1. ...nyhetssektionen på startsidan.
     2. ...nyhetssidan.
     3. ...nyhetens egen sida.
-10. Om allt ser bra ut är du nu färdig. Om något behöver ändras, se
+11. Om allt ser bra ut är du nu färdig. Om något behöver ändras, se
     [guiden om hur du redigerar en nyhet](#jag-vill-redigera-en-nyhet).
 
 ### Jag vill redigera en nyhet
