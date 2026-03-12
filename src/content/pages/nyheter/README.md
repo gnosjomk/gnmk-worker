@@ -66,6 +66,8 @@ Mappen `\src\content\pages\nyheter` är där alla nyheter bor.
     a. Ladda du upp bilden i mappen [images](../../images).
     
     b. Lägg följande där du vill ha bilden: `<img src="/images/[namnet på bilden inklusive filändelse]" />`
+
+	Om du vill ha länk till en annan del av sidan (t.ex. `gnosjomk.se/sidans/sökväg` skriver du: `[text på länken](sidans/sökväg)`.
     	
 8.  Högt upp till höger hittar du knappen _Commit changes_. Tryck på den.
 
