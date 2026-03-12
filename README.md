@@ -35,7 +35,7 @@ Här finns information om hur man arbetar med hemsidan.
 
 ### Cloudflare
 
-<!-- TODO -->
+Hemsidan ligger som en Cloudflare Worker. Branchen master här i Github är den som byggs till hemsidan.
 
 ### 11ty (och Nunjucks)
 
@@ -43,7 +43,7 @@ Här finns information om hur man arbetar med hemsidan.
 
 ### Markdown
 
-Läs mer om markdown [här](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+Läs mer om markdown [här](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 ### HTML
 
