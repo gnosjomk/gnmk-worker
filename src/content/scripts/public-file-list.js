@@ -66,11 +66,6 @@ function createSermonItem(sermon) {
             <div class="file-details">
                 <h4>${escapeHtml(title)}</h4>
                 <p>${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
-
-                <audio controls preload="none">
-                    <source src="${audioUrl}" type="audio/mpeg">
-                    Din webbläsare stöder inte ljuduppspelning.
-                </audio>
             </div>
         </div>
 
