@@ -1,38 +1,126 @@
-async function initSermons() {
+const SERMONS_JSON_URL = "/api/file/public/predikningar/sermons.json";
+const AUDIO_BASE_URL = "/api/file/public/predikningar/ljudfiler/";
+
+function initSermons() {
+    loadSermons();
+}
+
+async function loadSermons() {
     const filesSection = document.getElementById('filesSection');
     const loadingMessage = document.getElementById('loadingMessage');
     const errorMessage = document.getElementById('errorMessage');
     const noFilesMessage = document.getElementById('noFilesMessage');
     const filesList = document.getElementById('filesList');
 
-    let sermonList = getSermonList();
+    try {
+        hideElement('errorMessage');
+        showElement('loadingMessage');
 
-    sermonList.then(
-        sermons => { sermons.forEach(sermon => {
-            const sermonItem = createSermonItem(sermon);
-            filesList.appendChild(sermonItem);
-        });
+        const response = await fetch(SERMONS_JSON_URL);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch sermons.json");
         }
-    );
+
+        const sermons = await response.json();
+
+        hideElement('loadingMessage');
+
+        if (!sermons || sermons.length === 0) {
+            showElement('noFilesMessage');
+            return;
+        }
+
+        filesList.innerHTML = "";
+
+        sermons.forEach(sermon => {
+            const item = createSermonItem(sermon);
+            filesList.appendChild(item);
+        });
+
+        showElement('filesSection');
+
+    } catch (error) {
+        hideElement('loadingMessage');
+        showError("Kunde inte ladda predikningar: " + error.message);
+    }
 }
 
-async function getSermonList() {
-    const response = await fetch(`${API_BASE}/file/public/predikningar/sermons.json}`);
-    let sermonList = response.json();
-    return sermonList;
-}
+function createSermonItem(sermon) {
 
-function createSermonItem(file, members) {
-    const item = document.createElement('div');
-    item.className = 'file-item';
-    
-    const fileExtension = getFileExtension(file.name);
-    
+    const item = document.createElement("div");
+    item.className = "file-item";
+
+    const title = sermon.title ? sermon.title : "Predikan";
+    const speaker = sermon.speaker ? sermon.speaker : "";
+    const date = formatDate(sermon.date);
+
+    const encodedFile = encodeURIComponent(sermon.file);
+    const downloadUrl = AUDIO_BASE_URL + encodedFile;
+
     item.innerHTML = `
         <div class="file-info">
-            <p>${sermon.file}</p>
+            <div class="file-icon">
+                MP3
+            </div>
+            <div class="file-details">
+                <h4>
+                    <a href="${downloadUrl}" download>
+                        ${escapeHtml(title)}
+                    </a>
+                </h4>
+                <p>${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
+            </div>
+        </div>
+        <div class="file-actions">
+            <a class="btn btn-primary btn-small" href="${downloadUrl}" download>
+                Ladda ner
+            </a>
         </div>
     `;
-    
+
     return item;
+}
+
+function formatDate(dateString) {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString("sv-SE", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>"']/g, function (m) {
+        return ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        })[m];
+    });
+}
+
+function showElement(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "block";
+}
+
+function hideElement(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+}
+
+function showError(message) {
+    const el = document.getElementById("errorMessage");
+    if (!el) return;
+
+    el.textContent = message;
+    el.style.display = "block";
 }
