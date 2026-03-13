@@ -36,14 +36,13 @@ verksamheten som länkar till undersidan - som syns på startsidan samt på `gno
     [Ditt innehåll. Datum tider, kontaktperson, etc.]
     ```
 
-    - `title`: Det här är namnet på verksamheten. Den kommer synas överst på
-      verksamhetens egna sida, men också synas på https://www.gnosjomk.se/verksamheter och
-      i verksamhets-sektionen på startsidan.
+    - `title`: Det här är namnet på verksamheten. Den kommer synas på https://www.gnosjomk.se/verksamheter och
+      i verksamhets-sektionen på startsidan. Den kommer **inte** synas på verksamhetens egen sida.
     - `puff`: En kort text som beskriver verksamheten. Bör inte vara mer än en
       mening.
     - `layout`: Ska alltid vara `base.njk`.
 
-6.  Ersätt därefter "[Ditt innehåll]" med ditt innehåll.
+6.  Ersätt därefter "[Ditt innehåll]" med ditt innehåll. Tänk på att sidan **inte** kommer få verksamheten namn som rubrik per automatik.
 
     Om du vill du lägga till en bild på sidan:
     
