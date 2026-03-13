@@ -7,12 +7,13 @@ async function initSermons() {
 
     let sermonList = getSermonList();
 
-    sermonList.then{
-        sermons => sermons.forEach(sermon => {
+    sermonList.then(
+        sermons => { sermons.forEach(sermon => {
             const sermonItem = createSermonItem(sermon);
             filesList.appendChild(sermonItem);
         });
-    };
+        }
+    );
 }
 
 async function getSermonList() {
