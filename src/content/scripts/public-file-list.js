@@ -62,18 +62,9 @@ function createSermonItem(sermon) {
     const audioUrl = AUDIO_BASE_URL + encodedFile;
 
     item.innerHTML = `
-        <div class="file-info">
-            <div class="file-details">
-                <h4>${escapeHtml(title)}</h4>
-                <p>${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
-            </div>
-        </div>
-
-        <div class="file-actions">
-            <a class="btn btn-primary btn-small" href="${audioUrl}" download>
-                Ladda ner
-            </a>
-        </div>
+        <a class="btn btn-primary btn-small" href="${audioUrl}" download>
+            <b>${escapeHtml(title)}</b><p> • ${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
+        </a>
     `;
 
     return item;
