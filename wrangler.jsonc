@@ -62,7 +62,6 @@
 		{
 			"binding": "FILE_BUCKET",
 			"bucket_name": "gnmk-files",
-			"preview_bucket_name": "preview"
 		}
 	]
 }

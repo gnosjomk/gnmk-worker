@@ -1,26 +1,12 @@
-// Cloudflare Worker for Members Website Backend - TypeScript Version
-// Handles authentication, session management, rate limiting, and file operations
+// Cloudflare Worker - simplified structure
+// Auth/session logic preserved, file handling simplified
 
-// Environment interface for type safety
 interface Env {
-  MEMBER_PASSWORD: string;
+  GNMK_MEMBERS_PASSWORD: string;
   SESSION_DURATION_HOURS?: string;
   RATE_LIMIT_REQUESTS_PER_MINUTE?: string;
   SESSIONS_KV: KVNamespace;
   FILE_BUCKET: R2Bucket;
-  GNMK_MEMBERS_PASSWORD?: string;
-}
-
-// Configuration types
-interface Config {
-  SESSION_DURATION_HOURS: number;
-  RATE_LIMIT_REQUESTS_PER_MINUTE: number;
-  MAX_SESSION_LIFETIME_HOURS: number;
-}
-
-// API types
-interface LoginRequest {
-  password: string;
 }
 
 interface SessionData {
@@ -33,411 +19,297 @@ interface RateLimitData {
   attempts: number[];
 }
 
-interface RateLimitResult {
-  allowed: boolean;
-  resetInMinutes?: number;
-}
-
-interface AuthResult {
-  valid: boolean;
-  sessionData?: SessionData;
-  error?: string;
-}
-
-interface FileInfo {
-  name: string;
-  size: number;
-  lastModified: string;
-}
-
-interface ApiResponse {
-  success?: boolean;
-  message?: string;
-  error?: string;
-  authenticated?: boolean;
-  expiresAt?: string;
-}
-
-// Configuration constants
-const CONFIG: Config = {
+const CONFIG = {
   SESSION_DURATION_HOURS: 24,
   RATE_LIMIT_REQUESTS_PER_MINUTE: 10,
-  MAX_SESSION_LIFETIME_HOURS: 168, // 1 week max
 };
 
-// CORS headers
 const CORS_HEADERS: Record<string, string> = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// Main worker export
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      // Handle CORS preflight
-      if (request.method === 'OPTIONS') {
+      if (request.method === "OPTIONS") {
         return new Response(null, { headers: CORS_HEADERS });
       }
 
       const url = new URL(request.url);
       const path = url.pathname;
 
-      // Route requests
-      if (path.startsWith('/api/')) {
-        return await handleApiRequest(request, env, path);
+      if (path.startsWith("/api/auth/")) {
+        return handleAuth(request, env, path);
       }
 
-      // Not an API request
-      return new Response('Not Found', { status: 404 });
-      
-    } catch (error) {
-      console.error('Worker error:', error);
-      return jsonResponse({ error: 'Internal server error' }, 500);
+      if (path.startsWith("/api/file/")) {
+        return handleFileRequest(request, env, path);
+      }
+
+      return new Response("Not Found", { status: 404 });
+
+    } catch (err) {
+      console.error(err);
+      return jsonResponse({ error: "Internal server error" }, 500);
     }
   },
 };
 
-async function handleApiRequest(request: Request, env: Env, path: string): Promise<Response> {
-  const segments = path.split('/').filter(Boolean);
-  
-  if (segments[1] === 'auth') {
-    return await handleAuth(request, env, segments[2]);
-  } else if (segments[1] === 'members' && segments[2] === 'files') {
-    return await handleFiles(request, env, segments.slice(3));
-  } else if (segments[1] === 'public' && segments[2] === 'files') {
-    return await handleFiles(request, env, segments.slice(3));
-  }
-  
-  return jsonResponse({ error: 'Endpoint not found' }, 404);
+////////////////////////////////////////////////////////
+// AUTH
+////////////////////////////////////////////////////////
+
+async function handleAuth(request: Request, env: Env, path: string): Promise<Response> {
+  if (path.endsWith("/login")) return login(request, env);
+  if (path.endsWith("/logout")) return logout(request, env);
+  if (path.endsWith("/check")) return authCheck(request, env);
+
+  return jsonResponse({ error: "Invalid auth endpoint" }, 400);
 }
 
-// Authentication handlers
-async function handleAuth(request: Request, env: Env, action?: string): Promise<Response> {
-  switch (action) {
-    case 'login':
-      return await handleLogin(request, env);
-    case 'logout':
-      return await handleLogout(request, env);
-    case 'check':
-      return await handleAuthCheck(request, env);
-    default:
-      return jsonResponse({ error: 'Invalid auth action' }, 400);
-  }
-}
-
-async function handleLogin(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'POST') {
-    return jsonResponse({ error: 'Method not allowed' }, 405);
+async function login(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
   }
 
-  const clientIP = request.headers.get('CF-Connecting-IP') || 'unknown';
-  
-  // Rate limiting
-  const rateLimitResult = await checkRateLimit(env.SESSIONS_KV, clientIP, env);
-  if (!rateLimitResult.allowed) {
-    return jsonResponse({ 
-      error: `Too many attempts. Try again in ${rateLimitResult.resetInMinutes} minutes.` 
-    }, 429);
-  }
+  const clientIP = request.headers.get("CF-Connecting-IP") || "unknown";
 
-  try {
-    const requestData = await request.json() as LoginRequest;
-    const { password } = requestData;
-    
-    if (!password) {
-      return jsonResponse({ error: 'Password is required' }, 400);
-    }
-
-    // Check password against environment variable
-    if (password !== env.GNMK_MEMBERS_PASSWORD) {
-      // Update rate limit on failed attempt
-      await updateRateLimit(env.SESSIONS_KV, clientIP);
-      return jsonResponse({ error: 'Invalid password' }, 401);
-    }
-
-    // Generate session token
-    const sessionToken = await generateSessionToken();
-    const sessionDuration = parseInt(env.SESSION_DURATION_HOURS || CONFIG.SESSION_DURATION_HOURS.toString());
-    const expiresAt = new Date(Date.now() + (sessionDuration * 60 * 60 * 1000));
-
-    // Store session in KV
-    const sessionData: SessionData = {
-      createdAt: new Date().toISOString(),
-      expiresAt: expiresAt.toISOString(),
-      ip: clientIP,
-    };
-
-    await env.SESSIONS_KV.put(
-      `session:${sessionToken}`,
-      JSON.stringify(sessionData),
-      { expirationTtl: sessionDuration * 3600 }
+  const rateLimit = await checkRateLimit(env.SESSIONS_KV, clientIP, env);
+  if (!rateLimit.allowed) {
+    return jsonResponse(
+      { error: `Too many attempts. Try again in ${rateLimit.resetInMinutes} minutes.` },
+      429
     );
-
-    // Set cookie
-    const response = jsonResponse({ success: true, message: 'Logged in successfully' });
-    response.headers.set('Set-Cookie', 
-      `session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${sessionDuration * 3600}`
-    );
-
-    return response;
-    
-  } catch (error) {
-    console.error('Login error:', error);
-    return jsonResponse({ error: 'Invalid request data' }, 400);
-  }
-}
-
-async function handleLogout(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'POST') {
-    return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
-  const sessionToken = getSessionToken(request);
-  
-  if (sessionToken) {
-    // Remove session from KV
-    await env.SESSIONS_KV.delete(`session:${sessionToken}`);
+  const body = await request.json();
+  const password = body.password;
+
+  if (password !== env.GNMK_MEMBERS_PASSWORD) {
+    await updateRateLimit(env.SESSIONS_KV, clientIP);
+    return jsonResponse({ error: "Invalid password" }, 401);
   }
 
-  // Clear cookie
-  const response = jsonResponse({ success: true, message: 'Logged out successfully' });
-  response.headers.set('Set-Cookie', 
-    'session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0'
+  const token = await generateSessionToken();
+
+  const duration =
+    parseInt(env.SESSION_DURATION_HOURS || CONFIG.SESSION_DURATION_HOURS.toString());
+
+  const expiresAt = new Date(Date.now() + duration * 3600 * 1000);
+
+  const session: SessionData = {
+    createdAt: new Date().toISOString(),
+    expiresAt: expiresAt.toISOString(),
+    ip: clientIP,
+  };
+
+  await env.SESSIONS_KV.put(
+    `session:${token}`,
+    JSON.stringify(session),
+    { expirationTtl: duration * 3600 }
   );
 
-  return response;
+  const res = jsonResponse({ success: true });
+
+  res.headers.set(
+    "Set-Cookie",
+    `session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${duration * 3600}`
+  );
+
+  return res;
 }
 
-async function handleAuthCheck(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'GET') {
-    return jsonResponse({ error: 'Method not allowed' }, 405);
+async function logout(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
   }
 
-  const sessionToken = getSessionToken(request);
-  
-  if (!sessionToken) {
-    return jsonResponse({ error: 'Not authenticated' }, 401);
+  const token = getSessionToken(request);
+
+  if (token) {
+    await env.SESSIONS_KV.delete(`session:${token}`);
   }
 
-  const sessionDataString = await env.SESSIONS_KV.get(`session:${sessionToken}`);
-  
-  if (!sessionDataString) {
-    return jsonResponse({ error: 'Session not found' }, 401);
+  const res = jsonResponse({ success: true });
+
+  res.headers.set(
+    "Set-Cookie",
+    "session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0"
+  );
+
+  return res;
+}
+
+async function authCheck(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "GET") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
   }
 
-  const sessionData: SessionData = JSON.parse(sessionDataString);
+  const result = await verifySession(request, env);
 
-  // Check if session has expired
-  if (new Date() > new Date(sessionData.expiresAt)) {
-    await env.SESSIONS_KV.delete(`session:${sessionToken}`);
-    return jsonResponse({ error: 'Session expired' }, 401);
+  if (!result.valid) {
+    return jsonResponse({ error: "Not authenticated" }, 401);
   }
 
-  return jsonResponse({ 
+  return jsonResponse({
     authenticated: true,
-    expiresAt: sessionData.expiresAt 
+    expiresAt: result.sessionData!.expiresAt,
   });
 }
 
-// File handlers
-async function handleFiles(request: Request, env: Env, pathSegments: string[]): Promise<Response> {
-  // Determine if this is a members or public endpoint
-  const url = new URL(request.url);
-  const isMembers = url.pathname.startsWith('/api/members/files');
-  const isPublic = url.pathname.startsWith('/api/public/files');
+////////////////////////////////////////////////////////
+// FILE ACCESS
+////////////////////////////////////////////////////////
 
-  // Auth required for members, not for public
-  if (isMembers) {
-    const authResult = await verifySession(request, env);
-    if (!authResult.valid) {
-      return jsonResponse({ error: 'Not authenticated' }, 401);
+async function handleFileRequest(
+  request: Request,
+  env: Env,
+  path: string
+): Promise<Response> {
+
+  if (request.method !== "GET") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
+  }
+
+  const key = decodeURIComponent(path.replace("/api/file/", ""));
+
+  if (!key.startsWith("public/") && !key.startsWith("members/")) {
+    return jsonResponse({ error: "Invalid file path" }, 403);
+  }
+
+  if (key.startsWith("members/")) {
+    const auth = await verifySession(request, env);
+    if (!auth.valid) {
+      return jsonResponse({ error: "Not authenticated" }, 401);
     }
   }
 
-  // Only allow access to files in the correct folder
-  const allowedPrefix = isMembers ? 'members/' : 'public/';
+  const object = await env.FILE_BUCKET.get(key);
 
-  if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[1] === null)) {
-    // List files with allowed prefix only
-    return await listFiles(request, env, allowedPrefix);
-  } else if (pathSegments.length == 1) {
-    // List files below a certain path
-    const path = decodeURI(pathSegments[0]);
-    return await listFiles(request, env, allowedPrefix + path);
-  } else if (pathSegments.length === 2 && pathSegments[0] === 'download') {
-    // Download specific file, only if it starts with allowed prefix
-    const filename = pathSegments[1];
-    if (!decodeURI(filename).startsWith(allowedPrefix)) {
-      console.log("file name: ", decodeURI(filename));
-      return jsonResponse({ error: 'File not allowed' }, 403);
-    }
-    return await downloadFile(request, env, filename);
+  if (!object) {
+    return jsonResponse({ error: "File not found" }, 404);
   }
 
-  return jsonResponse({ error: 'Invalid file request' }, 400);
+  const headers = new Headers(CORS_HEADERS);
+
+  headers.set(
+    "Content-Type",
+    object.httpMetadata?.contentType || "application/octet-stream"
+  );
+
+  headers.set("Content-Length", object.size.toString());
+
+  return new Response(object.body, {
+    status: 200,
+    headers,
+  });
 }
 
-async function listFiles(request: Request, env: Env, allowedPrefix: string = ''): Promise<Response> {
-  if (request.method !== 'GET') {
-    return jsonResponse({ error: 'Method not allowed' }, 405);
+////////////////////////////////////////////////////////
+// SESSION UTILS
+////////////////////////////////////////////////////////
+
+async function verifySession(request: Request, env: Env) {
+  const token = getSessionToken(request);
+  if (!token) return { valid: false };
+
+  const data = await env.SESSIONS_KV.get(`session:${token}`);
+  if (!data) return { valid: false };
+
+  const session: SessionData = JSON.parse(data);
+
+  if (new Date() > new Date(session.expiresAt)) {
+    await env.SESSIONS_KV.delete(`session:${token}`);
+    return { valid: false };
   }
 
-  try {
-    // Only list files with allowedPrefix
-    console.log(allowedPrefix);
-    const objects = await env.FILE_BUCKET.list({ prefix: allowedPrefix });
-    const files: FileInfo[] = objects.objects.map(obj => ({
-      name: obj.key,
-      size: obj.size,
-      lastModified: obj.uploaded.toISOString(),
-    }));
-    return jsonResponse(files);
-  } catch (error) {
-    console.error('List files error:', error);
-    return jsonResponse({ error: 'Failed to list files' }, 500);
-  }
-}
-
-async function downloadFile(request: Request, env: Env, filename: string): Promise<Response> {
-  if (request.method !== 'GET') {
-    return jsonResponse({ error: 'Method not allowed' }, 405);
-  }
-
-  try {
-    const decodedFilename = decodeURIComponent(filename);
-    // Only allow download if filename starts with correct prefix (already checked in handleFiles)
-    const object = await env.FILE_BUCKET.get(decodedFilename);
-    if (!object) {
-      return jsonResponse({ error: 'File not found' }, 404);
-    }
-    // Stream the file content
-    const headers = new Headers();
-    headers.set('Content-Type', object.httpMetadata?.contentType || 'application/octet-stream');
-    headers.set('Content-Length', object.size.toString());
-    headers.set('Content-Disposition', `attachment; filename="${decodedFilename}"`);
-    // Add CORS headers
-    Object.entries(CORS_HEADERS).forEach(([key, value]) => {
-      headers.set(key, value);
-    });
-    return new Response(object.body, {
-      headers,
-      status: 200,
-    });
-  } catch (error) {
-    console.error('Download file error:', error);
-    return jsonResponse({ error: 'Failed to download file' }, 500);
-  }
-}
-
-// Utility functions
-async function verifySession(request: Request, env: Env): Promise<AuthResult> {
-  const sessionToken = getSessionToken(request);
-  
-  if (!sessionToken) {
-    return { valid: false, error: 'No session token' };
-  }
-
-  const sessionDataString = await env.SESSIONS_KV.get(`session:${sessionToken}`);
-  
-  if (!sessionDataString) {
-    return { valid: false, error: 'Session not found' };
-  }
-
-  const sessionData: SessionData = JSON.parse(sessionDataString);
-
-  if (new Date() > new Date(sessionData.expiresAt)) {
-    await env.SESSIONS_KV.delete(`session:${sessionToken}`);
-    return { valid: false, error: 'Session expired' };
-  }
-
-  return { valid: true, sessionData };
+  return { valid: true, sessionData: session };
 }
 
 function getSessionToken(request: Request): string | null {
-  // First try Authorization header (for cross-origin requests)
-  const authHeader = request.headers.get('Authorization');
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    return authHeader.substring(7);
+
+  const auth = request.headers.get("Authorization");
+  if (auth?.startsWith("Bearer ")) {
+    return auth.slice(7);
   }
-  
-  // Fallback to cookie (for same-origin requests)
-  const cookieHeader = request.headers.get('Cookie');
-  if (!cookieHeader) return null;
 
-  const cookies = cookieHeader.split(';').reduce((acc: Record<string, string>, cookie) => {
-    const [name, value] = cookie.trim().split('=');
-    if (name && value) {
-      acc[name] = value;
-    }
-    return acc;
-  }, {});
+  const cookie = request.headers.get("Cookie");
+  if (!cookie) return null;
 
-  return cookies.session || null;
+  for (const part of cookie.split(";")) {
+    const [k, v] = part.trim().split("=");
+    if (k === "session") return v;
+  }
+
+  return null;
 }
 
 async function generateSessionToken(): Promise<string> {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  const arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return [...arr].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function checkRateLimit(kv: KVNamespace, clientIP: string, env: Env): Promise<RateLimitResult> {
-  const rateLimit = parseInt(env.RATE_LIMIT_REQUESTS_PER_MINUTE || CONFIG.RATE_LIMIT_REQUESTS_PER_MINUTE.toString());
-  const key = `ratelimit:${clientIP}`;
+////////////////////////////////////////////////////////
+// RATE LIMIT
+////////////////////////////////////////////////////////
+
+async function checkRateLimit(
+  kv: KVNamespace,
+  ip: string,
+  env: Env
+) {
+  const limit =
+    parseInt(env.RATE_LIMIT_REQUESTS_PER_MINUTE || CONFIG.RATE_LIMIT_REQUESTS_PER_MINUTE.toString());
+
+  const key = `ratelimit:${ip}`;
   const now = Date.now();
-  const windowMs = 60 * 1000; // 1 minute
-  
-  const dataString = await kv.get(key);
-  
-  if (!dataString) {
-    return { allowed: true };
+  const window = 60000;
+
+  const data = await kv.get(key);
+  if (!data) return { allowed: true };
+
+  const parsed: RateLimitData = JSON.parse(data);
+  const recent = parsed.attempts.filter(t => now - t < window);
+
+  if (recent.length >= limit) {
+    const oldest = Math.min(...recent);
+    const reset = Math.ceil((window - (now - oldest)) / 60000);
+    return { allowed: false, resetInMinutes: reset };
   }
 
-  const data: RateLimitData = JSON.parse(dataString);
-  
-  // Clean old attempts
-  const recentAttempts = data.attempts.filter(time => now - time < windowMs);
-  
-  if (recentAttempts.length >= rateLimit) {
-    const oldestAttempt = Math.min(...recentAttempts);
-    const resetInMs = windowMs - (now - oldestAttempt);
-    const resetInMinutes = Math.ceil(resetInMs / (60 * 1000));
-    
-    return { 
-      allowed: false, 
-      resetInMinutes 
-    };
-  }
-  
   return { allowed: true };
 }
 
-async function updateRateLimit(kv: KVNamespace, clientIP: string): Promise<void> {
-  const key = `ratelimit:${clientIP}`;
+async function updateRateLimit(kv: KVNamespace, ip: string) {
+  const key = `ratelimit:${ip}`;
   const now = Date.now();
-  const windowMs = 60 * 1000; // 1 minute
-  
-  const dataString = await kv.get(key);
-  let attempts: number[] = dataString ? JSON.parse(dataString).attempts : [];
-  
-  // Clean old attempts and add new one
-  attempts = attempts.filter(time => now - time < windowMs);
+  const window = 60000;
+
+  const data = await kv.get(key);
+  let attempts: number[] = data ? JSON.parse(data).attempts : [];
+
+  attempts = attempts.filter(t => now - t < window);
   attempts.push(now);
-  
-  const rateLimitData: RateLimitData = { attempts };
-  
-  await kv.put(key, JSON.stringify(rateLimitData), { 
-    expirationTtl: Math.ceil(windowMs / 1000) 
-  });
+
+  await kv.put(
+    key,
+    JSON.stringify({ attempts }),
+    { expirationTtl: 60 }
+  );
 }
 
-function jsonResponse(data: any, status: number = 200): Response {
+////////////////////////////////////////////////////////
+// RESPONSE
+////////////////////////////////////////////////////////
+
+function jsonResponse(data: any, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...CORS_HEADERS,
     },
   });
