@@ -6,13 +6,13 @@ order: 2
 {% if collections.activities | length %}
   <h1>Våra verksamheter</h1>
   <section class="activities">
-    {% for item in collections.activities %}
-      <section>
-        <a href="{{item.url}}">
-            <h2>{{ item.data.title }}</h2>
-            <p>{{ item.data.puff }}</p>
+      {% for item in collections.activities %}
+        <a class="undecorated-link" href="{{item.url}}">
+          <section>
+              <h3>{{ item.data.title }}</h3>
+              <p>{{ item.data.puff }}</p>
+          </section>
         </a>
-      </section>
-    {% endfor %}
+      {% endfor %}
   </section>
 {% endif %}
