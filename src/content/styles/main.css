@@ -93,7 +93,8 @@ main > * {
 }
 
 .home-div:nth-child(odd) {
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
+  border-top: 1px #f1f1f1 solid;
 }
 
 
@@ -107,7 +108,8 @@ main > * {
 
 
 .home-div:nth-child(even) > section > a {
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
+  border: 1px #f1f1f1 solid;
 }
 
 .hero {
@@ -155,6 +157,10 @@ main > h1, .content-center {
     
     @media (max-width:320px)  {
       width: 90vw;
+    }
+    
+    @media (min-width:481px)  {
+      width: 200px;
     }
 
     section {
