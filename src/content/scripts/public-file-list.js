@@ -63,7 +63,7 @@ function createSermonItem(sermon) {
 
     item.innerHTML = `
         <a class="btn btn-primary btn-small" href="${audioUrl}" download>
-            <b>${escapeHtml(title)}</b><p> • ${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
+            <p><b>${escapeHtml(title)}</b> • ${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
         </a>
     `;
 
