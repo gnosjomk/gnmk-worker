@@ -22,7 +22,10 @@ async function loadSermons() {
             throw new Error("Failed to fetch sermons.json");
         }
 
-        const sermons = await response.json();
+        let sermons = await response.json();
+
+        // Sort newest first
+        sermons.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         hideElement('loadingMessage');
 
@@ -56,24 +59,23 @@ function createSermonItem(sermon) {
     const date = formatDate(sermon.date);
 
     const encodedFile = encodeURIComponent(sermon.file);
-    const downloadUrl = AUDIO_BASE_URL + encodedFile;
+    const audioUrl = AUDIO_BASE_URL + encodedFile;
 
     item.innerHTML = `
         <div class="file-info">
-            <div class="file-icon">
-                MP3
-            </div>
             <div class="file-details">
-                <h4>
-                    <a href="${downloadUrl}" download>
-                        ${escapeHtml(title)}
-                    </a>
-                </h4>
+                <h4>${escapeHtml(title)}</h4>
                 <p>${escapeHtml(date)} • ${escapeHtml(speaker)}</p>
+
+                <audio controls preload="none">
+                    <source src="${audioUrl}" type="audio/mpeg">
+                    Din webbläsare stöder inte ljuduppspelning.
+                </audio>
             </div>
         </div>
+
         <div class="file-actions">
-            <a class="btn btn-primary btn-small" href="${downloadUrl}" download>
+            <a class="btn btn-primary btn-small" href="${audioUrl}" download>
                 Ladda ner
             </a>
         </div>
@@ -96,15 +98,13 @@ function formatDate(dateString) {
 
 function escapeHtml(str) {
     if (!str) return "";
-    return str.replace(/[&<>"']/g, function (m) {
-        return ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;'
-        })[m];
-    });
+    return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[m]);
 }
 
 function showElement(id) {

@@ -22,9 +22,9 @@ order: 4
     <p>Det finns inga filer tillgängliga.</p>
 </div>
 
-<script src="../scripts/main.js"></script>
+<script src="../scripts/public-file-list.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        initPublicFilesArea('predikningar');
+        initSermons();
     });
 </script>
