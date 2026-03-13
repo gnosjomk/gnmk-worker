@@ -11,6 +11,8 @@ Här finns information om hur man arbetar med hemsidan.
   - [...Utsikt-sidan.]()
 - [Jag vill redigera en sida,](src/content/pages/README.md) så som att ändra, ta
   bort, eller lägga till en text eller bild.
+- [Jag vill lägga till en verksamhet](src/content/pages/verksamheter/README.md#jag-vill-l%C3%A4gga-upp-en-verksamhet)
+- [Jag vill redigera en verksamhet](src/content/pages/verksamheter/README.md#jag-vill-redigera-en-verksamhet)
 - [Jag vill ändra utseendet på hemsidan.](#jag-vill-ändra-utseendet-på-hemsidan)
 - Jag vill göra något annat. Var hittar jag mer info om...
   - [...nyheter?](src/content/pages/nyheter/README.md)
