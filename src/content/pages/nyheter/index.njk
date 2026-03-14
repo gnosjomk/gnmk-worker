@@ -7,12 +7,12 @@ order: 3
   <h1>Nyheter</h1>
   <section class="news">
     {% for item in collections.news %}
-      <section>
-        <a href="{{item.url}}">
+      <a class="undecorated-link" href="{{item.url}}">
+        <section>
             <h2>{{ item.data.title }}</h2>
             <p>{{ item.data.puff }}</p>
-        </a>
-      </section>
+        </section>
+      </a>
     {% endfor %}
   </section>
 {% endif %}

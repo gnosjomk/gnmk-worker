@@ -124,6 +124,8 @@ main > * {
   justify-content: center;
 
   color: #fff;
+
+  border: none !important;
 }
 
 .content {

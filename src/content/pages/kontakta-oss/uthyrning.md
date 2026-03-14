@@ -1,5 +1,5 @@
 ---
-layout: content.njk
+layout: news.njk
 title: Uthyrning
 ---
 
