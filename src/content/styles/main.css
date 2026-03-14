@@ -63,12 +63,12 @@ header nav {
   flex-wrap: wrap;  
 }
 
-.undecorated-link {
+a, .undecorated-link {
   text-decoration: none;
   color: inherit;
 }
 
-.undecorated-link:hover {
+a:hover, .undecorated-link:hover {
   text-decoration: underline;
 }
 

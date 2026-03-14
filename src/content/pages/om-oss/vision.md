@@ -1,12 +1,9 @@
 ---
 layout: base.njk
-title: Om oss
-order: 1
+title: Vision
 ---
 
-# Om oss
-
-## Vår vision
+# Vår vision
 
 **En Gemensam färdväg där vi tillsammans..**
 
