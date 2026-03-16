@@ -1,7 +1,7 @@
 const SERMONS_JSON_URL = "/api/file/public/predikningar/sermons.json";
 const AUDIO_BASE_URL = "/api/file/public/predikningar/ljudfiler/";
 const UTSIKT_JSON_URL = "/api/file/public/utsikt/utsikt.json";
-const AUDIO_BASE_URL = "/api/file/public/utsikt/pdfer/";
+const PDF_BASE_URL = "/api/file/public/utsikt/pdfer/";
 
 function initSermons() {
     loadSermons();
