@@ -25,6 +25,6 @@ order: 4
 <script src="../scripts/public-file-list.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        initSermons();
+        initUtsikt();
     });
 </script>

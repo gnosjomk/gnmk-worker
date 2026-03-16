@@ -1,5 +1,7 @@
 const SERMONS_JSON_URL = "/api/file/public/predikningar/sermons.json";
 const AUDIO_BASE_URL = "/api/file/public/predikningar/ljudfiler/";
+const UTSIKT_JSON_URL = "/api/file/public/utsikt/utsikt.json";
+const AUDIO_BASE_URL = "/api/file/public/utsikt/pdfer/";
 
 function initSermons() {
     loadSermons();
@@ -64,6 +66,74 @@ function createSermonItem(sermon) {
     item.innerHTML = `
         <a class="undecorated-link" href="${audioUrl}" download>
             <span><b>${escapeHtml(title)}</b> • ${escapeHtml(date.substring(0, 10))} • ${escapeHtml(speaker)}</span>
+        </a>
+    `;
+
+    return item;
+}
+
+
+function initUtiskt() {
+    loadUtsikt();
+}
+
+async function loadUtsikt() {
+    const filesSection = document.getElementById('filesSection');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const noFilesMessage = document.getElementById('noFilesMessage');
+    const filesList = document.getElementById('filesList');
+
+    try {
+        hideElement('errorMessage');
+        showElement('loadingMessage');
+
+        const response = await fetch(UTSIKT_JSON_URL);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch utsikt.json");
+        }
+
+        let utsikts = await response.json();
+
+        // Sort newest first
+        utsikts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        hideElement('loadingMessage');
+
+        if (!utsikts || utsikts.length === 0) {
+            showElement('noFilesMessage');
+            return;
+        }
+
+        filesList.innerHTML = "";
+
+        utsikts.forEach(utsikt => {
+            const item = createUtsiktItem(utsikt);
+            filesList.appendChild(item);
+        });
+
+        showElement('filesSection');
+
+    } catch (error) {
+        hideElement('loadingMessage');
+        showError("Kunde inte ladda Utsikt: " + error.message);
+    }
+}
+
+function createUtsiktItem(utsikt) {
+
+    const item = document.createElement("div");
+    item.className = "file-item";
+
+    const date = formatDateISO(utsikt.date);
+
+    const encodedFile = encodeURIComponent(utsikt.file);
+    const pdfUrl = PDF_BASE_URL + encodedFile;
+
+    item.innerHTML = `
+        <a class="undecorated-link" href="${pdfUrl}" download>
+            <span><b>${escapeHtml(date.substring(0, 10))}}</span>
         </a>
     `;
 
