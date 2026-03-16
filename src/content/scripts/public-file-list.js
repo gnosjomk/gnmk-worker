@@ -56,7 +56,7 @@ function createSermonItem(sermon) {
 
     const title = sermon.title ? sermon.title : "Predikan";
     const speaker = sermon.speaker ? sermon.speaker : "";
-    const date = formatDate(sermon.date);
+    const date = formatDateISO(sermon.date);
 
     const encodedFile = encodeURIComponent(sermon.file);
     const audioUrl = AUDIO_BASE_URL + encodedFile;
@@ -70,7 +70,7 @@ function createSermonItem(sermon) {
     return item;
 }
 
-function formatDate(dateString) {
+function formatDateISO(dateString) {
     if (!dateString) return "";
 
     const date = new Date(dateString);
