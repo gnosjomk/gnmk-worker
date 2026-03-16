@@ -4,7 +4,7 @@ title: Utsikt
 order: 4
 ---
 
-# Predikningar
+# Utsikt
 
 <div id="loadingMessage" class="loading-message">
     Laddar filer...

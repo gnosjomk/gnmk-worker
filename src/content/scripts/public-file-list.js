@@ -126,6 +126,7 @@ function createUtsiktItem(utsikt) {
     const item = document.createElement("div");
     item.className = "file-item";
 
+    const title = utsikt.title ? utsikt.title : "";
     const date = formatDateISO(utsikt.date);
 
     const encodedFile = encodeURIComponent(utsikt.file);
@@ -133,7 +134,7 @@ function createUtsiktItem(utsikt) {
 
     item.innerHTML = `
         <a class="undecorated-link" href="${pdfUrl}" download>
-            <span><b>${escapeHtml(date.substring(0, 10))}}</span>
+            <span>${escapeHtml(date.substring(0, 10))} • <b>${escapeHtml(title)}</b></span>
         </a>
     `;
 
