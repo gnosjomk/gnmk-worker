@@ -73,7 +73,7 @@ function createSermonItem(sermon) {
 }
 
 
-function initUtiskt() {
+function initUtsikt() {
     loadUtsikt();
 }
 
