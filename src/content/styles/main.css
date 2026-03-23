@@ -114,9 +114,9 @@ main > * {
   height: 30rem;
   width: 100%;
   
-  background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(../images/P3223469.jpg);
+  background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(../images/P3223369.jpg);
   background-size: cover;
-  background-position: 50% 40%;
+  background-position: 50% 50%;
 
   display: flex;
   flex-direction: column;
