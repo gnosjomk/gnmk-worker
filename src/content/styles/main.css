@@ -116,7 +116,7 @@ main > * {
   
   background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(../images/P3223510.jpg);
   background-size: cover;
-  background-position: 50% 65%;
+  background-position: 50% 70%;
 
   display: flex;
   flex-direction: column;
