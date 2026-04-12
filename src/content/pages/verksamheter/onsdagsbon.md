@@ -1,7 +1,8 @@
 ---
 title: "Onsdags\u00ADbön"
-puff: Vi ber tillsammans. För oss själva och för de sammanhang där vi rör oss.
+puff: Bibelläsning och bön.
 layout: base.njk
 ---
 
-Onsdagar 18:00
+Onsdagar 18:00 <br>
+Vi ber och läser bibeln tillsammans. För oss själva och för de sammanhang där vi rör oss.
