@@ -1,6 +1,6 @@
 ---
-title: Bönegrupper
-puff: Samtal om tro, bön och bibelläsning
+title: Böne\u00ADgrupper
+puff:  Bön, bibelläsning och samtal om tro
 layout: base.njk
 ---
 
