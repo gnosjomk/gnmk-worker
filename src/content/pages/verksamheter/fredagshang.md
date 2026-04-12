@@ -1,5 +1,5 @@
 ---
-title: Fredagshäng
+title: Fredags\u00ADhäng
 puff: Gemenskap för alla åldrar
 layout: base.njk
 ---
