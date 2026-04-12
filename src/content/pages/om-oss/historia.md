@@ -1,5 +1,5 @@
 ---
-layout: news.njk
+layout: article.njk
 title: Vår historia
 ---
 

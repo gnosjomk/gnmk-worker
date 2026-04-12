@@ -1,7 +1,7 @@
 ---
 title: "Söndags\u00ADskola"
 puff: Barnens egen gudstjänst. För dig som är 4-9 år
-layout: base.njk
+layout: article.njk
 ---
 
-Söndagar 10:00
+Söndagar kl.10.00

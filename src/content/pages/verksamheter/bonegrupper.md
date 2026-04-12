@@ -1,7 +1,7 @@
 ---
 title: "Böne\u00ADgrupper"
 puff:  Bön, bibelläsning och samtal om tro
-layout: base.njk
+layout: article.njk
 ---
 
 Det finns flertalet bönegrupper där man

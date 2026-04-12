@@ -1,10 +1,8 @@
 ---
 title: UV-scout
 puff: För dig i grundskolan
-layout: base.njk
+layout: article.njk
 ---
-
-# UV-scout
 
 Måndagar kl.18.00-19.15 eller 19.30 (när vi är utomhus) <br>
 Startdatum: 26 januari
@@ -21,4 +19,4 @@ Kontakt: Jakob Wendefors, 070-384 72 01
 <b>Ledarscout</b>, från 13 år <br>
 Kontakt: Lars-Erik Stacke, 070-541 21 81
 
-<b>Instagram: uvscoutgnosjo </b>
+<b>Instagram: @uvscoutgnosjo </b>

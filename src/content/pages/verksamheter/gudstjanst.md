@@ -1,10 +1,8 @@
 ---
 title: Gudstjänst
-puff: Söndagar 10:00
+puff: Söndagar kl.10.00
 order: 1
-layout: base.njk
+layout: article.njk
 ---
 
-# Gudstjänst
-
-Söndagar 10:00
+Söndagar kl.10.00

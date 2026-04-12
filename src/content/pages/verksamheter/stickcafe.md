@@ -1,7 +1,7 @@
 ---
 title: Stickcafé
 puff: Handarbete och gemenskap
-layout: base.njk
+layout: article.njk
 ---
 
 Tisdagar en gång i månaden, kl.18.00-21.00
