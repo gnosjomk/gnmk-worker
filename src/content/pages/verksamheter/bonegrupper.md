@@ -1,8 +1,8 @@
 ---
-	title: Bönegrupper
-	puff: Samtal om tro, bön och bibelläsning
-	layout: base.njk
-	---
+title: Bönegrupper
+puff: Samtal om tro, bön och bibelläsning
+layout: base.njk
+---
 
 Det finns flertalet bönegrupper där man
 samlas och samtalar om tro, ber, läser bibeln
