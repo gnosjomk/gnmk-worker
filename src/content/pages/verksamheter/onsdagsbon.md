@@ -1,6 +1,6 @@
 ---
 title: "Onsdags\u00ADbön"
-puff: Bibelläsning och bön.
+puff: Bibelläsning och bön kl 18
 layout: base.njk
 ---
 
