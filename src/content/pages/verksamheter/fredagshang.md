@@ -1,8 +1,8 @@
 ---
-	title: Fredagshäng
-	puff: Gemenskap för alla åldrar
-	layout: base.njk
-	---
+title: Fredagshäng
+puff: Gemenskap för alla åldrar
+layout: base.njk
+---
 
 Fredagar kl.17.00-18.30 <br>
 Håll utkik på vår instagram eller på [Nyhetssidan](/nyheter).
