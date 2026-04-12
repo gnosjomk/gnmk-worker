@@ -27,11 +27,11 @@ verksamheten som länkar till undersidan - som syns på startsidan samt på `gno
 5.  Kopiera och fyll i den här mallen:
 
     ```
-		---
-		title: UV-scout
-		puff: För dig i grundskolan
-		layout: base.njk
-		---
+	---
+	title: UV-scout
+	puff: För dig i grundskolan
+	layout: base.njk
+	---
 
     [Ditt innehåll. Datum tider, kontaktperson, etc.]
     ```
