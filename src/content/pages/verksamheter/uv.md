@@ -19,4 +19,4 @@ Kontakt: Jakob Wendefors, 070-384 72 01
 <b>Ledarscout</b>, från 13 år <br>
 Kontakt: Lars-Erik Stacke, 070-541 21 81
 
-<b>Instagram: @uvscoutgnosjo </b>
+[<b>Instagram: @uvscoutgnosjo </b>](https://instagram.com/uvscoutgnosjo)
