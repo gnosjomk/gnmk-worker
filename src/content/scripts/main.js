@@ -86,7 +86,7 @@ async function getMemberFiles(path) {
     if (path === null) {
         path = '';
     }
-    return await apiRequest('/members/files/' + path);
+    return await apiRequest('/file/members/' + path);
 }
 async function getPublicFiles(path) {
     if (path === null) {
