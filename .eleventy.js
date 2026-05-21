@@ -1,4 +1,6 @@
 const dayjs = require("dayjs");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = function(eleventyConfig) {
   // Ignore every README.md file in the repo
@@ -33,6 +35,29 @@ module.exports = function(eleventyConfig) {
   // limit filter
   eleventyConfig.addFilter("limit", function(array, limit) {
     return array.slice(0, limit);
+  });
+
+  // Pick a random image from images/nyheter-default/ at build time
+  const defaultNewsImagesDir = path.join(__dirname, "src/content/images/nyheter-default");
+  let defaultNewsImages = [];
+  try {
+    defaultNewsImages = fs.readdirSync(defaultNewsImagesDir)
+      .filter(f => /\.(jpe?g|png|webp|svg|gif)$/i.test(f));
+  } catch (e) {
+    // Folder doesn't exist or is empty — no fallback images available
+  }
+
+  eleventyConfig.addFilter("randomDefaultNewsImage", function() {
+    if (defaultNewsImages.length === 0) return null;
+    const index = Math.floor(Math.random() * defaultNewsImages.length);
+    return "nyheter-default/" + defaultNewsImages[index];
+  });
+
+  // Format date as YYYY-MM-DD
+  eleventyConfig.addFilter("isoDate", function(date) {
+    if (!date) return "";
+    const d = new Date(date);
+    return d.toISOString().substring(0, 10);
   });
 
   // Copy static assets through to _site without processing

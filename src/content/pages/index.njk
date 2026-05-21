@@ -44,10 +44,16 @@ title: Hem
         <a class="undecorated-link" href="{{item.url}}">
           <section>
             <h3>{{ item.data.title }}</h3>
+            <p>{{ item.data.date | isoDate }}{% if item.data.time %} {{ item.data.time }}{% endif %}</p>
             <p>{{ item.data.puff }}</p>
           </section>
           {% if item.data.img %}
             <img src="/images/{{ item.data.img }}" />
+          {% else %}
+            {% set fallback = "" | randomDefaultNewsImage %}
+            {% if fallback %}
+              <img src="/images/{{ fallback }}" />
+            {% endif %}
           {% endif %}
         </a>
       {% endfor %}
