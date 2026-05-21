@@ -275,12 +275,12 @@ details {
   summary {
       list-style-position: outside;
   }
+}
 
-  summary ~ * {
-    width: 100vw;
+.calendar {
+  width: 100vw;
 
-    @media (min-width:481px)  {
-      padding: 0 5%;  
-    }
+  @media (min-width:481px)  {
+    padding: 0 5%;  
   }
 }

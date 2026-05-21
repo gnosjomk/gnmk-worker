@@ -82,51 +82,6 @@ async function checkAuth() {
     return await apiRequest('/auth/check');
 }
 
-async function getMemberFiles(path) {
-    if (path === null) {
-        path = '';
-    }
-    return await apiRequest('/file/members/' + path);
-}
-async function getPublicFiles(path) {
-    if (path === null) {
-        path = '';
-    }
-    return await apiRequest('/public/files/' + path);
-}
-
-async function downloadFile(filename, members) {
-    try {
-        const response = await fetch(`${API_BASE}/${members ? "members": "public"}/files/${encodeURIComponent(filename)}`);
-        
-        if (!response.ok) {
-            throw new Error('Failed to download file');
-        }
-        
-        // Create a blob from the response
-        const blob = await response.blob();
-        
-        // Create a temporary URL for the blob
-        const url = window.URL.createObjectURL(blob);
-        
-        // Create a temporary anchor element and trigger download
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = filename;
-        
-        document.body.appendChild(a);
-        a.click();
-        
-        // Clean up
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    } catch (error) {
-        console.error('Download failed:', error);
-        showError('Failed to download file: ' + error.message);
-    }
-}
-
 // Login form functionality
 function initLoginForm() {
     const form = document.getElementById('loginForm');
@@ -164,26 +119,6 @@ function initLoginForm() {
     });
 }
 
-// Members area functionality
-function initMembersArea() {
-    // Check authentication first
-    checkAuthentication();
-    
-    // Set up logout button
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-    
-    // Load files
-    loadFiles(true, null);
-}
-
-// Members area functionality
-function initPublicFilesArea(path) {
-    // Load files
-    loadFiles(false, path);
-}
 
 async function checkAuthentication() {
     try {
@@ -215,103 +150,7 @@ async function handleLogout() {
     }
 }
 
-async function loadFiles(members, path) {
-    const filesSection = document.getElementById('filesSection');
-    const loadingMessage = document.getElementById('loadingMessage');
-    const errorMessage = document.getElementById('errorMessage');
-    const noFilesMessage = document.getElementById('noFilesMessage');
-    const filesList = document.getElementById('filesList');
-    
-    try {
-        hideError();
-        showElement('loadingMessage');
 
-        let files;
-        if (members) {
-            files = await getMemberFiles(path);
-        } else {
-            files = await getPublicFiles(path);
-        }
-        
-        hideElement('loadingMessage');
-        
-        if (!files || files.length === 0) {
-            showElement('noFilesMessage');
-            return;
-        }
-        
-        // Clear existing files
-        filesList.innerHTML = '';
-        
-        // Create file items
-        files.forEach(file => {
-            const fileItem = createFileItem(file, members);
-            filesList.appendChild(fileItem);
-        });
-        
-        showElement('filesSection');
-        
-    } catch (error) {
-        hideElement('loadingMessage');
-        showError('Failed to load files: ' + error.message);
-    }
-}
-
-function createFileItem(file, members) {
-    const item = document.createElement('div');
-    item.className = 'file-item';
-    
-    const fileExtension = getFileExtension(file.name);
-    
-    item.innerHTML = `
-        <div class="file-info">
-            <div class="file-icon">
-                ${fileExtension.toUpperCase()}
-            </div>
-            <div class="file-details">
-                <h4>${escapeHtml(file.name)}</h4>
-                <p>${formatFileSize(file.size)} • Modified ${formatDate(file.lastModified)}</p>
-            </div>
-        </div>
-        <div class="file-actions">
-            <button class="btn btn-primary btn-small" onclick="downloadFile('${escapeHtml(file.name)}', ${members})">
-                Download
-            </button>
-        </div>
-    `;
-    
-    return item;
-}
-
-function getFileExtension(filename) {
-    const parts = filename.split('.');
-    return parts.length > 1 ? parts[parts.length - 1] : 'FILE';
-}
-
-function formatFileSize(bytes) {
-    if (!bytes) return 'Unknown size';
-    
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
-}
-
-function formatDate(dateString) {
-    if (!dateString) return 'Unknown date';
-    
-    const date = new Date(dateString);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-    });
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
 
 // Auto-check authentication on protected pages
 document.addEventListener('DOMContentLoaded', function() {    

@@ -8,7 +8,7 @@ order: 5
 
 <details class="main">
     <summary><h2>Kalender<h2></summary>
-    <div>
+    <div class="calendar">
         <iframe src="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=Europe%2FStockholm&showPrint=0&src=Ym9AZ25vc2pvbWsuc2U&color=%23d81b60" style="border:solid 1px #777" id="calendar" frameborder="0" scrolling="no"></iframe>
     </div>
 </details>
@@ -36,10 +36,9 @@ order: 5
 
 <button id="logoutBtn" class="btn btn-secondary">Logga ut</button>
 
-<script src="../scripts/main.js"></script>
+<script src="../scripts/member-file-list.js"></script>
 <script>
-    // Initialize members area
     document.addEventListener('DOMContentLoaded', function() {
-        initMembersArea();
+        initMemberFiles();
     });
 </script>
