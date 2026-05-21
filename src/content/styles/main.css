@@ -166,7 +166,6 @@ main > h1, .content-center {
     background-color: #f9f9f9;
 
     section {
-      margin: 1rem;
       background-size: cover;
       background-position: center center;
       max-width: 15rem;
@@ -175,10 +174,18 @@ main > h1, .content-center {
 }
 
 .activities > a > section {
-  margin: 1rem;
+  padding: 1rem;
   background-size: cover;
   background-position: center center;
   max-width: 15rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.activities > a > section > b {
+  margin-top: auto;
+  text-decoration: underline;
 }
 
 .news {

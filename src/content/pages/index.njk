@@ -24,6 +24,7 @@ title: Hem
           <section>
               <h3>{{ item.data.title }}</h3>
               <p>{{ item.data.puff }}</p>
+              <b>{{ item.data.readmore if item.data.readmore else item.data.title }} &rsaquo;</b>
           </section>
         </a>
       {% endfor %}
