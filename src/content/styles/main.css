@@ -284,3 +284,39 @@ details {
     padding: 0 5%;  
   }
 }
+
+/* Members page layout */
+.member-layout {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .member-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .member-layout details {
+    align-items: stretch;
+  }
+
+  .member-layout details > summary {
+    pointer-events: none;
+    list-style: none;
+  }
+
+  .member-layout details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .member-layout .calendar {
+    width: 100%;
+    padding: 0;
+  }
+
+  .member-layout #calendar {
+    height: 70vh;
+  }
+}

@@ -6,14 +6,16 @@ order: 5
 
 # Medlemssida
 
-<details class="main">
-    <summary><h2>Kalender<h2></summary>
+<div class="member-layout">
+
+<details class="member-calendar" open>
+    <summary><h2>Kalender</h2></summary>
     <div class="calendar">
         <iframe src="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=Europe%2FStockholm&showPrint=0&src=Ym9AZ25vc2pvbWsuc2U&color=%23d81b60" style="border:solid 1px #777" id="calendar" frameborder="0" scrolling="no"></iframe>
     </div>
 </details>
 
-<details class="main">
+<details class="member-files" open>
     <summary><h2>Filer</h2></summary>
 
     <div id="loadingMessage" class="loading-message">
@@ -33,6 +35,8 @@ order: 5
     </div>
 
 </details>
+
+</div>
 
 <button id="logoutBtn" class="btn btn-secondary">Logga ut</button>
 
