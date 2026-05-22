@@ -6,5 +6,6 @@ layout: base.njk
     {% if date %}
       <p>{{ date | isoDate }}{% if time %} {{ time }}{% endif %}</p>
     {% endif %}
+    {% if img %}<img src="../../images/{{img}}" />{% endif %}
     {{ content | safe }}
 </article>

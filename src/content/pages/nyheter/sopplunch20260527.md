@@ -1,8 +1,9 @@
 ---
-title: Sopplunch 27/5 12:00
+title: Sopplunch
 puff: "Rekommenderat pris: 60 kr."
 expires: 2026-05-28
 date: 2026-05-27
+time: 12:00
 img: sopplunch20260527.png
 ---
 
