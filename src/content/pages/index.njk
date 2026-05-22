@@ -60,3 +60,31 @@ title: Hem
     </section>
   </div>
 {% endif %}
+
+<div class="home-div">
+  <h2 class="content-center">
+    <a class="undecorated-link" href="https://www.instagram.com/YOUR_ACCOUNT/" target="_blank" rel="noopener">
+      Följ oss på Instagram
+    </a>
+  </h2>
+  <section class="instagram-feed">
+    <div class="instagram-placeholder" id="ig-placeholder">
+      <p>Klicka för att ladda inlägg från Instagram</p>
+      <button type="button" id="ig-load-btn">Visa inlägg</button>
+      <p class="instagram-privacy-note">Genom att klicka godkänner du att data skickas till Instagram och Behold.</p>
+    </div>
+    <div id="ig-widget" hidden>
+      <behold-widget feed-id="YOUR_FEED_ID"></behold-widget>
+    </div>
+  </section>
+</div>
+<script>
+  document.getElementById('ig-load-btn').addEventListener('click', function () {
+    var script = document.createElement('script');
+    script.src = 'https://w.behold.so/widget.js';
+    script.type = 'module';
+    document.body.appendChild(script);
+    document.getElementById('ig-placeholder').hidden = true;
+    document.getElementById('ig-widget').hidden = false;
+  });
+</script>

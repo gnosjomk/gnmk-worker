@@ -13,4 +13,4 @@ via vår instagram.
 
 Kontakt: Annica Blomgren, 070-541 72 75 <br> Hannes Lindström, 070-389 28 70
 
-[Instagram: @gnosjo_tonar](https://instagram.com/gnosjo_tonar)
+Instagram: [@gnosjo_tonar &rsaquo;](https://instagram.com/gnosjo_tonar)
