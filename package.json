@@ -9,7 +9,8 @@
 		"test": "vitest",
 		"cf-typegen": "wrangler types",
 		"build": "eleventy",
-		"serve": "eleventy --serve"
+		"serve": "eleventy --serve",
+		"generate:predikningar": "node tools/generate-predikningar-md.js"
 	},
 	"devDependencies": {
 		"@11ty/eleventy": "^3.1.2",

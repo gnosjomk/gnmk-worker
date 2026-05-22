@@ -19,6 +19,12 @@ module.exports = function(eleventyConfig) {
     return items;
   });
 
+  eleventyConfig.addCollection("predikningar", async (collectionApi) => {
+    let items = collectionApi.getFilteredByGlob("src/content/pages/predikningar/*.md");
+    items.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+    return items;
+  });
+
   eleventyConfig.addCollection("news", async (collectionApi) => {
     const now = dayjs();
 
@@ -49,6 +55,11 @@ module.exports = function(eleventyConfig) {
       return utsiktCollection[0].url;
     }
     return "/utsikt/";
+  });
+
+  eleventyConfig.addFilter("uriComponent", function(value) {
+    if (value === null || value === undefined) return "";
+    return encodeURIComponent(value.toString());
   });
 
   // Pick a random image from images/nyheter-default/ at build time
