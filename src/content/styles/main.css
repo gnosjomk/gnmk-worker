@@ -247,9 +247,43 @@ img {
   margin: 1rem 0;
 }
 
-table {
+footer table {
   border-spacing: 1rem 0;
   margin: 0 -1rem 1rem -1rem;
+}
+
+.file-table {
+  width: 100%;
+  max-width:60rem;
+  border-collapse: collapse;
+  margin: 0 0 1rem 0;
+  table-layout: fixed;
+}
+
+.file-table th,
+.file-table td {
+  text-align: left;
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid #e7e7e7;
+  vertical-align: top;
+}
+
+.file-table th {
+  font-weight: 700;
+  background-color: #fafafa;
+}
+
+.file-table tbody tr:hover {
+  background-color: #fcfcfc;
+}
+
+.file-table tbody tr[data-href] {
+  cursor: pointer;
+}
+
+.file-table tbody tr[data-href]:focus {
+  outline: 2px solid #888;
+  outline-offset: -2px;
 }
 
 /* Footer */
@@ -371,4 +405,12 @@ details {
 
 .background-secondary {
   background-color: #f9f9f9;
+}
+
+audio {
+  width: 90vw;
+  
+  @media (min-width: 768px) {
+    width: 50vw;
+  }
 }

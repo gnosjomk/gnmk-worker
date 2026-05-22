@@ -1,7 +1,8 @@
 ---
 layout: predikan-detail.njk
-title: "Predikan"
+
 date: 2025-02-16
 speaker: "Marc Corydon"
-file: "20250216_Predikan_Marc_Corydon - Predikan 16 februari 2025, Marc Corydon,.mp3"
+file:
+  "20250216_Predikan_Marc_Corydon - Predikan 16 februari 2025, Marc Corydon,.mp3"
 ---

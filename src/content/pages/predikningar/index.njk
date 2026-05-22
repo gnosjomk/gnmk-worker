@@ -10,17 +10,24 @@ order: 4
 
 <div id="filesSection">
   {% if sermons and sermons.length > 0 %}
-    <div id="filesList" class="files-list">
-      {% for sermon in sermons %}
-        <div class="file-item">
-          <a class="undecorated-link" href="{{ sermon.url }}">
-            <span>
-              <b>{{ sermon.data.title if sermon.data.title else "Predikan" }}</b> • {{ sermon.data.date | isoDate }} • {{ sermon.data.speaker if sermon.data.speaker else "" }}
-            </span>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
+    <table class="file-table">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Titel</th>
+          <th>Talare</th>
+        </tr>
+      </thead>
+      <tbody id="filesList">
+        {% for sermon in sermons %}
+          <tr data-href="{{ sermon.url }}" tabindex="0" role="link">
+            <td>{{ sermon.data.date | isoDate }}</td>
+            <td>{{ sermon.data.speaker if sermon.data.speaker else "" }}</td>
+            <td><b>{{ sermon.data.title if sermon.data.title else "" }}</b></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
     <div id="noFilesMessage" class="no-files-message">
       <p>Det finns inga filer tillgängliga.</p>

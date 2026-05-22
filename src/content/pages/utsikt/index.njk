@@ -8,15 +8,22 @@ order: 4
 
 <div id="filesSection">
   {% if collections.utsikt and collections.utsikt.length > 0 %}
-    <div id="filesList" class="files-list">
-      {% for issue in collections.utsikt %}
-        <div class="file-item">
-          <a class="undecorated-link" href="{{ issue.url }}">
-            <span>{{ issue.data.date | isoDate }} • <b>{{ issue.data.title }}</b></span>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
+    <table class="file-table">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Nummer</th>
+        </tr>
+      </thead>
+      <tbody id="filesList">
+        {% for issue in collections.utsikt %}
+          <tr data-href="{{ issue.url }}" tabindex="0" role="link">
+            <td>{{ issue.data.date | isoDate }}</td>
+            <td><b>{{ issue.data.title }}</b></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
     <div id="noFilesMessage" class="no-files-message">
       <p>Det finns inga filer tillgängliga.</p>

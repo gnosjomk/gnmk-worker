@@ -1,7 +1,9 @@
 ---
 layout: predikan-detail.njk
-title: "Predikan"
+
 date: 2025-10-04
 speaker: "Rickard Sundström"
-file: "20251004_Bibelstudium_Rickard_Sundstrom - Bibelstudium 4 oktober 2025, Rickard Sundström,.mp3"
+file:
+  "20251004_Bibelstudium_Rickard_Sundstrom - Bibelstudium 4 oktober 2025,
+  Rickard Sundström,.mp3"
 ---

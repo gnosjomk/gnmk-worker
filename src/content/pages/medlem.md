@@ -25,9 +25,18 @@ order: 5
     <div id="errorMessage" class="error-message" style="display: none;"></div>
 
     <div id="filesSection" style="display: none;">
-        <div id="filesList" class="files-list">
-            <!-- Files will be loaded here dynamically -->
-        </div>
+        <table class="file-table">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Titel</th>
+                    <th>Beskrivning</th>
+                </tr>
+            </thead>
+            <tbody id="filesList">
+                <!-- Files will be loaded here dynamically -->
+            </tbody>
+        </table>
     </div>
 
     <div id="noFilesMessage" class="no-files-message" style="display: none;">

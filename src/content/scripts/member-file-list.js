@@ -75,20 +75,22 @@ async function loadMemberFiles() {
 }
 
 function createMemberFileItem(file) {
-    const item = document.createElement("div");
-    item.className = "file-item";
+    const item = document.createElement("tr");
 
     const title = file.title || file.file;
     const date = formatDateISO(file.date);
-    const description = file.description ? ` • ${escapeHtml(file.description)}` : "";
+    const description = file.description ? escapeHtml(file.description) : "";
 
     const encodedFile = encodeURIComponent(file.file);
     const fileUrl = MEMBER_FILES_BASE_URL + encodedFile;
+    item.dataset.href = fileUrl;
+    item.tabIndex = 0;
+    item.setAttribute("role", "link");
 
     item.innerHTML = `
-        <a class="undecorated-link" href="${fileUrl}" download>
-            <span>${escapeHtml(date)} • <b>${escapeHtml(title)}</b>${description}</span>
-        </a>
+        <td>${escapeHtml(date)}</td>
+        <td><b>${escapeHtml(title)}</b></td>
+        <td>${description}</td>
     `;
 
     return item;

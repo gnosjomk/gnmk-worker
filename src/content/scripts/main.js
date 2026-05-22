@@ -150,6 +150,30 @@ async function handleLogout() {
     }
 }
 
+function initClickableTableRows() {
+    const activateRow = (row) => {
+        const href = row.dataset.href;
+        if (!href) return;
+        window.location.assign(href);
+    };
+
+    document.addEventListener("click", (event) => {
+        const row = event.target.closest(".file-table tbody tr[data-href]");
+        if (!row) return;
+        if (event.target.closest("a, button, input, select, textarea, label")) return;
+        activateRow(row);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        const row = event.target.closest(".file-table tbody tr[data-href]");
+        if (!row) return;
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            activateRow(row);
+        }
+    });
+}
+
 
 
 // Auto-check authentication on protected pages
@@ -165,4 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentPath === '/logga-in') {
         checkAuthAndRedirect();
     }
+
+    initClickableTableRows();
 });
