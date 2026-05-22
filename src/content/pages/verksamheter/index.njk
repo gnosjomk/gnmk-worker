@@ -7,7 +7,7 @@ order: 2
   <h1>Våra verksamheter</h1>
   <section class="activities">
       {% for item in collections.activities %}
-        <a class="undecorated-link" href="{{item.url}}">
+        <a class="undecorated-link background-secondary" href="{{item.url}}">
           <section>
               <h3>{{ item.data.title }}</h3>
               <p>{{ item.data.puff }}</p>

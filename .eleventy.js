@@ -1,6 +1,7 @@
 const dayjs = require("dayjs");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 module.exports = function(eleventyConfig) {
   // Ignore every README.md file in the repo
@@ -47,9 +48,16 @@ module.exports = function(eleventyConfig) {
     // Folder doesn't exist or is empty — no fallback images available
   }
 
-  eleventyConfig.addFilter("randomDefaultNewsImage", function() {
+  // Deterministic selection of a default image per news item: hash the item's url
+  eleventyConfig.addFilter("deterministicDefaultNewsImage", function(identifier) {
     if (defaultNewsImages.length === 0) return null;
-    const index = Math.floor(Math.random() * defaultNewsImages.length);
+    if (!identifier) {
+      // fallback to first image if no identifier provided
+      return "nyheter-default/" + defaultNewsImages[0];
+    }
+    const hash = crypto.createHash('sha256').update(identifier.toString()).digest();
+    const num = hash.readUInt32BE(0);
+    const index = num % defaultNewsImages.length;
     return "nyheter-default/" + defaultNewsImages[index];
   });
 

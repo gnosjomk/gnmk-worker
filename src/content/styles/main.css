@@ -90,23 +90,27 @@ main > * {
   width: 100%;
 }
 
-.home-div:nth-child(odd) {
+.home-div:nth-child(even) {
   background-color: #f9f9f9;
   border-top: 1px #f1f1f1 solid;
 }
 
 
-.home-div:nth-child(odd) > section > a {
-  background-color: white;
-}
-
-.home-div:nth-child(even) {
-  background-color: white;
-}
-
-
 .home-div:nth-child(even) > section > a {
+  background-color: white;
+}
+
+.home-div:nth-child(odd) {
+  background-color: white;
+}
+
+
+.home-div:nth-child(odd) > section > a {
   background-color: #f9f9f9;
+
+  section {
+    margin: 0 2rem;
+  }
 }
 
 .hero {
@@ -162,9 +166,6 @@ main > h1, .content-center {
       width: 200px;
     }
 
-    border: 1px #f1f1f1 solid;
-    background-color: #f9f9f9;
-
     section {
       background-size: cover;
       background-position: center center;
@@ -206,7 +207,6 @@ main > h1, .content-center {
 }
 
 .news > a > section {
-  margin: 0 2rem;
   flex-grow: 1;
 }
 
@@ -326,4 +326,12 @@ details {
   .member-layout #calendar {
     height: 70vh;
   }
+}
+
+.background-primary {
+  background-color: white;
+}
+
+.background-secondary {
+  background-color: #f9f9f9;
 }

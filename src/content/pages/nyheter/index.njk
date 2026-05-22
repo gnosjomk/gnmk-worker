@@ -8,6 +8,14 @@ order: 3
   <section class="news">
     {% for item in collections.news %}
       <a class="undecorated-link" href="{{item.url}}">
+        {% if item.data.img %}
+            <img src="/images/{{ item.data.img }}" />
+        {% else %}
+        {% set fallback = item.url | deterministicDefaultNewsImage %}
+          {% if fallback %}
+            <img src="/images/{{ fallback }}" />
+          {% endif %}
+        {% endif %}
         <section>
             <h2>{{ item.data.title }}</h2>
             <p>{{ item.data.date | isoDate }}{% if item.data.time %} {{ item.data.time }}{% endif %}</p>
