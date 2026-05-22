@@ -13,6 +13,12 @@ module.exports = function(eleventyConfig) {
     return items;
   });
 
+  eleventyConfig.addCollection("utsikt", async (collectionApi) => {
+    let items = collectionApi.getFilteredByGlob("src/content/pages/utsikt/*.md");
+    items.sort((a, b) => b.data.date - a.data.date);
+    return items;
+  });
+
   eleventyConfig.addCollection("news", async (collectionApi) => {
     const now = dayjs();
 
@@ -36,6 +42,13 @@ module.exports = function(eleventyConfig) {
   // limit filter
   eleventyConfig.addFilter("limit", function(array, limit) {
     return array.slice(0, limit);
+  });
+
+  eleventyConfig.addFilter("latestUtsiktUrl", function(utsiktCollection) {
+    if (Array.isArray(utsiktCollection) && utsiktCollection.length > 0 && utsiktCollection[0].url) {
+      return utsiktCollection[0].url;
+    }
+    return "/utsikt/";
   });
 
   // Pick a random image from images/nyheter-default/ at build time

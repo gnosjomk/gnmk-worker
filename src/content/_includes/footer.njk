@@ -12,7 +12,11 @@
     <h4>Meny</h4>
     <table>
       {% for item in collections.pages %}
-        <tr><td><a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a></td></tr>
+        {% set menuUrl = item.url %}
+        {% if item.data.title == "Utsikt" %}
+          {% set menuUrl = collections.utsikt | latestUtsiktUrl %}
+        {% endif %}
+        <tr><td><a class="undecorated-link" href="{{ menuUrl }}">{{ item.data.title }}</a></td></tr>
       {% endfor %}
     </table>
   </nav>

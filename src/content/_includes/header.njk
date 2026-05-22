@@ -7,7 +7,11 @@
   {% if collections.pages | length %}
     <nav>
       {% for item in collections.pages %}
-        <a class="undecorated-link" href="{{ item.url }}">{{ item.data.title }}</a>
+        {% set menuUrl = item.url %}
+        {% if item.data.title == "Utsikt" %}
+          {% set menuUrl = collections.utsikt | latestUtsiktUrl %}
+        {% endif %}
+        <a class="undecorated-link" href="{{ menuUrl }}">{{ item.data.title }}</a>
       {% endfor %}
     </nav>
   {% endif %}

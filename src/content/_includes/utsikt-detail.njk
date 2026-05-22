@@ -1,0 +1,45 @@
+---
+layout: base.njk
+---
+
+<div class="utsikt-layout">
+  <section class="utsikt-reader">
+    <h1>{{ title }}</h1>
+    <iframe
+      id="utsiktPdfFrame"
+      class="utsikt-pdf-frame"
+      title="PDF-läsare: {{ title }}"
+      loading="lazy"
+      data-file="{{ file }}"
+    ></iframe>
+  </section>
+
+  <aside class="utsikt-info">
+    <div class="info-section">
+      <a href="/api/file/public/utsikt/pdfer/{{ file }}" download>
+        <b>Ladda ner PDF &rsaquo;</b>
+      </a>
+    </div>
+
+    <div class="info-section">
+      <a href="/utsikt/" class="undecorated-link">
+        <b>Till Utsikt-arkivet &rsaquo;</b>
+      </a>
+    </div>
+
+    {% if content %}
+      <div class="info-section">
+        {{ content | safe }}
+      </div>
+    {% endif %}
+  </aside>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const frame = document.getElementById("utsiktPdfFrame");
+    if (!frame) return;
+    const fileName = frame.dataset.file || "";
+    frame.src = `/api/file/public/utsikt/pdfer/${encodeURIComponent(fileName)}`;
+  });
+</script>
