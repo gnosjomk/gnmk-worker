@@ -63,7 +63,12 @@ header nav {
   flex-wrap: wrap;  
 }
 
-a, .undecorated-link {
+a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.undecorated-link {
   text-decoration: none;
   color: inherit;
 }
