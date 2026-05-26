@@ -5,7 +5,7 @@ readmore: Om vårt stickcafé
 layout: article.njk
 ---
 
-Tisdagar en gång i månaden, kl.18.00-21.00
+Tisdagar en gång i månaden, kl.18:00-21:00
 
 Vårens datum: ~~27/1, 24/2, 24/3, 21/4~~ Fler datum kommer!
 

@@ -5,7 +5,7 @@ readmore: Om fredagshäng
 layout: base.njk
 ---
 
-Fredagar kl.17.00-18.30 <br> Håll utkik på vår instagram eller på
+Fredagar kl.17:00-18:30 <br> Håll utkik på vår instagram eller på
 [Nyhetssidan](/nyheter).
 
 Gemenskap för alla åldrar. Kvällsmat som lagas, eller beställs, och äts

@@ -21,7 +21,7 @@ besöker flera platser under november, samma upplägg på varje plats.
 | ----------- | ------------------------------ | ------------------------------ |
 | 4 november  | **Hillerstorps Missionskyrka** |                                |
 | 6 november  | **Tenhults Allianskyrka**      |                                |
-| 9 november  | **Skarpnäckskyrkan**           | OBS! Kl. 11.00 (ingen anmälan) |
+| 9 november  | **Skarpnäckskyrkan**           | OBS! Kl. 11:00 (ingen anmälan) |
 | 13 november | **Storegårdskyrkan, Eksjö**    |                                |
 | 20 november | **Laholms Missionshus**        |                                |
 

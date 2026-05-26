@@ -5,4 +5,4 @@ readmore: Om söndagsskolan
 layout: article.njk
 ---
 
-Söndagar kl.10.00
+Söndagar kl.10:00

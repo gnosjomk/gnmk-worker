@@ -5,7 +5,7 @@ readmore: Om Tonår
 layout: article.njk
 ---
 
-**Fredagar kl.19.00**
+**Fredagar kl.19:00**
 
 En mötesplats för tonåringar, från 13 år och uppåt. <br> Vi möts för gemenskap
 och roliga aktiviteter tillsammans, samt fika och andakt. Programinfo skickas ut

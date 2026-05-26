@@ -5,7 +5,7 @@ readmore: Om UV-scout
 layout: article.njk
 ---
 
-Måndagar kl.18.00-19.15 eller 19.30 (när vi är utomhus) <br> Startdatum: 26
+Måndagar kl.18:00-19:15 eller 19:30 (när vi är utomhus) <br> Startdatum: 26
 januari
 
 I UV-scout lär vi oss om naturen, eldar, knopar och annat friluftsliv. <br> Även
