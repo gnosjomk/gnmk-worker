@@ -96,6 +96,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/content/styles": "styles"});
   eleventyConfig.addPassthroughCopy({"src/content/scripts": "scripts"});
   eleventyConfig.addPassthroughCopy({"src/content/images": "images"});
+  eleventyConfig.addPassthroughCopy({"src/content/data": "data"});
+  eleventyConfig.addPassthroughCopy({"src/content/robots.txt": "robots.txt"});
 
   return {
     dir: {

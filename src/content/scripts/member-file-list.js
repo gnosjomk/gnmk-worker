@@ -1,4 +1,4 @@
-const MEMBER_FILES_JSON_URL = "/api/file/members/member-files.json";
+const MEMBER_FILES_JSON_URL = "/data/member-files.json";
 const MEMBER_FILES_BASE_URL = "/api/file/members/member-files/";
 
 function initMemberFiles() {

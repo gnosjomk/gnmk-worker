@@ -5,6 +5,7 @@ Allow: /script.js
 Disallow: /members
 Disallow: /login
 Disallow: /api/
+Disallow: /data/
 
 # Sitemap location (optional - create if you have public pages to index)
 # Sitemap: https://yourdomain.com/sitemap.xml
