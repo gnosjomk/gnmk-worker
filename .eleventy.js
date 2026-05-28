@@ -41,7 +41,7 @@ module.exports = function(eleventyConfig) {
     let rootPages =  collectionApi.getFilteredByGlob("src/content/pages/*.md");
     let subPages =  collectionApi.getFilteredByGlob("src/content/pages/*/index.njk");
     let items = homePage.concat(rootPages).concat(subPages);
-    items.sort((a, b) => a.data.order - b.data.order);
+    items.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
     return items;
   });
 
