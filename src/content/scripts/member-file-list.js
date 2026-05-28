@@ -79,7 +79,6 @@ function createMemberFileItem(file) {
 
     const title = file.title || file.file;
     const date = formatDateISO(file.date);
-    const description = file.description ? escapeHtml(file.description) : "";
 
     const encodedFile = encodeURIComponent(file.file);
     const fileUrl = MEMBER_FILES_BASE_URL + encodedFile;
@@ -90,7 +89,6 @@ function createMemberFileItem(file) {
     item.innerHTML = `
         <td>${escapeHtml(date)}</td>
         <td><b>${escapeHtml(title)}</b></td>
-        <td>${description}</td>
     `;
 
     return item;

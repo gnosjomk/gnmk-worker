@@ -30,7 +30,6 @@ order: 5
                 <tr>
                     <th>Datum</th>
                     <th>Titel</th>
-                    <th>Beskrivning</th>
                 </tr>
             </thead>
             <tbody id="filesList">
