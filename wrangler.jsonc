@@ -17,7 +17,8 @@
 	},
 	"preview_urls": true,
 	"routes": [
-		{ "pattern": "nya.gnosjomk.se", "custom_domain": true }
+		{ "pattern": "nya.gnosjomk.se", "custom_domain": true },
+		{ "pattern": "www.nya.gnosjomk.se", "custom_domain": true }
 	],
 	/**
 	 * Smart Placement
