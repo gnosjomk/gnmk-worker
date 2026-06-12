@@ -1,10 +1,10 @@
 ---
 layout: base.njk
-title: Nyheter
+title: Händer i kyrkan
 order: 3
 ---
 {% if collections.news | length %}
-  <h1>Nyheter</h1>
+  <h1>Händer i kyrkan</h1>
   <section class="news">
     {% for item in collections.news %}
       <a class="undecorated-link" href="{{item.url}}">

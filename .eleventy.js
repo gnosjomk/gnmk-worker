@@ -28,7 +28,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addCollection("news", async (collectionApi) => {
     const now = dayjs();
 
-    return collectionApi.getFilteredByGlob("src/content/pages/nyheter/*.md")
+    return collectionApi.getFilteredByGlob("src/content/pages/hander-i-kyrkan/*.md")
       .filter(item => {
         const expires = item.data.expires ? dayjs(item.data.expires) : null;
         return !expires || expires.isAfter(now);
@@ -62,8 +62,8 @@ module.exports = function(eleventyConfig) {
     return encodeURIComponent(value.toString());
   });
 
-  // Pick a random image from images/nyheter-default/ at build time
-  const defaultNewsImagesDir = path.join(__dirname, "src/content/images/nyheter-default");
+  // Pick a random image from images/hander-i-kyrkan-default/ at build time
+  const defaultNewsImagesDir = path.join(__dirname, "src/content/images/hander-i-kyrkan-default");
   let defaultNewsImages = [];
   try {
     defaultNewsImages = fs.readdirSync(defaultNewsImagesDir)
@@ -77,12 +77,12 @@ module.exports = function(eleventyConfig) {
     if (defaultNewsImages.length === 0) return null;
     if (!identifier) {
       // fallback to first image if no identifier provided
-      return "nyheter-default/" + defaultNewsImages[0];
+      return "hander-i-kyrkan-default/" + defaultNewsImages[0];
     }
     const hash = crypto.createHash('sha256').update(identifier.toString()).digest();
     const num = hash.readUInt32BE(0);
     const index = num % defaultNewsImages.length;
-    return "nyheter-default/" + defaultNewsImages[index];
+    return "hander-i-kyrkan-default/" + defaultNewsImages[index];
   });
 
   // Format date as YYYY-MM-DD

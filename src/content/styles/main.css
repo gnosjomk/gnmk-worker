@@ -95,22 +95,22 @@ main > * {
   width: 100%;
 }
 
-.home-div:nth-child(even) {
-  background-color: #f9f9f9;
-  border-top: 1px #f1f1f1 solid;
-}
-
-
-.home-div:nth-child(even) > section > a {
-  background-color: white;
-}
-
 .home-div:nth-child(odd) {
-  background-color: white;
+  background-color: #f9f9f9;
+  border: 1px #f1f1f1 solid;
 }
 
 
 .home-div:nth-child(odd) > section > a {
+  background-color: white;
+}
+
+.home-div:nth-child(even) {
+  background-color: white;
+}
+
+
+.home-div:nth-child(even) > section > a {
   background-color: #f9f9f9;
 
   section {
