@@ -44,5 +44,6 @@ ansökningarna löpande.
 
 Kontakta Henrik Svensson, <a href="tel:+46730608292">073–0608292</a>
 <a href="mailto:henrik.svensson.barebo@gmail.com">henrik.svensson.barebo@gmail.com</a>
+
 Vid frågor kan du också kontakta vår föreståndare Andreas Grumsén
 <a href="tel:+46706092870">070-609 28 70</a>
