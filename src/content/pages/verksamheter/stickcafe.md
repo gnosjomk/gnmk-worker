@@ -7,7 +7,7 @@ layout: article.njk
 
 Tisdagar en gång i månaden, kl.18:00-21:00
 
-Vårens datum: ~~27/1, 24/2, 24/3, 21/4~~ Fler datum kommer!
+Höstens datum: 15/9, 13/10, 10/11
 
 En öppen gemenskap för alla åldrar där vi handarbetar, samtalar med varandra och
 fikar. Kom som du är, handarbeta om du vill, och möt oss i vår gemenskap. Här
