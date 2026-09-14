@@ -33,6 +33,11 @@ module.exports = function(eleventyConfig) {
         const expires = item.data.expires ? dayjs(item.data.expires) : null;
         return !expires || expires.isAfter(now);
       })
+      .sort((a, b) => {
+        if (a.data.time < b.data.time) return -1;
+        if (a.data.time > b.data.time) return 1;
+        return 0;
+      })
       .sort((a, b) => a.data.date - b.data.date);
   });
   
