@@ -1,6 +1,6 @@
 ---
 layout: article.njk
-title: Lediga tjänster
+title: "Lediga tjänster\u003a Ungdomsledare/pastor"
 ---
 
 ## Vi söker ungdomsledare/pastor med ungdomsinriktning 100%
