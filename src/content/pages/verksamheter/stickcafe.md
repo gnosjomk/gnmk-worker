@@ -5,6 +5,8 @@ readmore: Om vårt stickcafé
 layout: article.njk
 ---
 
+<img src="../../images/stickcafe.png" />
+
 Tisdagar en gång i månaden, kl.18:00-21:00
 
 Höstens datum: 15/9, 13/10, 10/11
