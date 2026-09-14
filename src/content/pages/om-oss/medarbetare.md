@@ -5,8 +5,8 @@ title: Våra medarbetare
 
 # Våra medarbetare
 
-| Andreas Grumsén | Hannes Lindström |
-|-|-|
-| Pastor | Ungdomsledare |
-| **Tel:** 070–609 28 70 | **Tel:** 072–542 27 17 |
-| **Mail:** andreas@gnosjomk.se | **Mail:** hannes@gnosjomk.se |
+| Andreas Grumsén                                                                                  | Ulrika Klements                                       |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| Pastor<br />Församligsföreståndare                                                               | Pastor<br />Diakonal inriktning                       |
+| **Tel:** <a href="tel:+46706092870">070–609 28 70</a>                                            | **Tel:** <a href="tel:+46703892870">070-389 28 70</a> |
+| **Mail:** <a href="mailto:andreas@gnosjomk.se " class="undecorated-link">andreas@gnosjomk.se</a> | **Mail:**                                             |
