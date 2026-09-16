@@ -11,6 +11,6 @@ En mötesplats för tonåringar, från 13 år och uppåt. <br> Vi möts för gem
 och roliga aktiviteter tillsammans, samt fika och andakt. Programinfo skickas ut
 via vår instagram.
 
-Kontakt: Annica Blomgren, 070-541 72 75 <br> Hannes Lindström, 070-389 28 70
+Kontakt: Annica Blomgren, 070-541 72 75
 
 Instagram: [@gnosjo_tonar &rsaquo;](https://instagram.com/gnosjo_tonar)
