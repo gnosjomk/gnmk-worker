@@ -33,7 +33,11 @@
 	 */
 	"vars": {
 		"SESSION_DURATION_HOURS": 24,
-		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10
+		"RATE_LIMIT_REQUESTS_PER_MINUTE": 10,
+		// Sveltia CMS - GitHub OAuth. Client ID is not secret; the secret is set
+		// with: npx wrangler secret put GITHUB_CLIENT_SECRET
+		"GITHUB_CLIENT_ID": "Ov23lin0uNojs6RcxkBP",
+		"CMS_ALLOWED_DOMAINS": "www.gnosjomk.se,gnosjomk.se"
 	},
 	/**
 	 * Note: Use secrets to store sensitive data.

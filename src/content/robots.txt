@@ -6,6 +6,7 @@ Disallow: /members
 Disallow: /login
 Disallow: /api/
 Disallow: /data/
+Disallow: /admin
 
 # Sitemap location (optional - create if you have public pages to index)
 # Sitemap: https://yourdomain.com/sitemap.xml

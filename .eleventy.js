@@ -9,13 +9,13 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("activities", async (collectionApi) => {
     let items =  collectionApi.getFilteredByGlob("src/content/pages/verksamheter/*.md");
-    items.sort((a, b) => a.data.order - b.data.order);
+    items.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
     return items;
   });
 
   eleventyConfig.addCollection("utsikt", async (collectionApi) => {
     let items = collectionApi.getFilteredByGlob("src/content/pages/utsikt/*.md");
-    items.sort((a, b) => b.data.date - a.data.date);
+    items.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
     return items;
   });
 
@@ -30,7 +30,9 @@ module.exports = function(eleventyConfig) {
 
     return collectionApi.getFilteredByGlob("src/content/pages/hander-i-kyrkan/*.md")
       .filter(item => {
-        const expires = item.data.expires ? dayjs(item.data.expires) : null;
+        const expires = item.data.expires
+          ? dayjs(item.data.expires)
+          : (item.data.date ? dayjs(item.data.date).add(1, "day") : null);
         return !expires || expires.isAfter(now);
       })
       .sort((a, b) => {
@@ -38,7 +40,7 @@ module.exports = function(eleventyConfig) {
         if (a.data.time > b.data.time) return 1;
         return 0;
       })
-      .sort((a, b) => a.data.date - b.data.date);
+      .sort((a, b) => new Date(a.data.date) - new Date(b.data.date));
   });
   
   eleventyConfig.addCollection("pages", async (collectionApi) => {
@@ -65,6 +67,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("uriComponent", function(value) {
     if (value === null || value === undefined) return "";
     return encodeURIComponent(value.toString());
+  });
+
+  // Accept both a bare filename ("stickcafe.png", as older files and the
+  // deterministic fallback store it) and a root-absolute path ("/images/x.webp",
+  // as the CMS writes it).
+  eleventyConfig.addFilter("imageUrl", function(value) {
+    if (!value) return "";
+    const v = String(value);
+    if (/^(https?:)?\/\//.test(v) || v.startsWith("data:")) return v;
+    return "/images/" + v.replace(/^\/?(images\/)?/, "");
   });
 
   // Pick a random image from images/hander-i-kyrkan-default/ at build time
@@ -102,6 +114,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/content/scripts": "scripts"});
   eleventyConfig.addPassthroughCopy({"src/content/images": "images"});
   eleventyConfig.addPassthroughCopy({"src/content/data": "data"});
+  eleventyConfig.addPassthroughCopy({"src/content/admin": "admin"});
   eleventyConfig.addPassthroughCopy({"src/content/robots.txt": "robots.txt"});
 
   return {

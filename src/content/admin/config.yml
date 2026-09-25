@@ -1,0 +1,290 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Sveltia CMS - konfiguration för gnosjomk.se
+# Dokumentation: https://sveltiacms.app/en/docs/
+
+backend:
+  name: github
+  repo: gnosjomk/gnmk-worker
+  branch: sveltia # TODO: byt till master vid driftsättning
+  # Inloggning kräver OAuth-endpointen i src/index.ts (ej byggd ännu).
+  # Tills dess: testa lokalt via knappen "Work with Local Repository".
+  base_url: https://www.gnosjomk.se
+  auth_endpoint: api/auth/github
+  auth_scope: public_repo # repot är publikt - ingen åtkomst till privata repon
+  squash_merges: true # master tillåter endast squash-merge
+  preview_context: cloudflare-preview # matchar commit-statusen från GitHub Actions
+  commit_messages:
+    create: 'Skapa {{collection}} "{{slug}}"'
+    update: 'Uppdatera {{collection}} "{{slug}}"'
+    delete: 'Ta bort {{collection}} "{{slug}}"'
+    uploadMedia: 'Ladda upp "{{path}}"'
+    deleteMedia: 'Ta bort "{{path}}"'
+
+publish_mode: editorial_workflow
+
+app_title: Gnosjö Missionskyrka - Redigera webbplatsen
+site_url: https://www.gnosjomk.se
+
+# --- Bilder -----------------------------------------------------------------
+media_folder: /src/content/images
+public_folder: /images
+
+media_libraries:
+  all:
+    max_file_size: 2000000
+    slugify_filename: true
+    transformations:
+      raster_image:
+        format: webp
+        quality: 82
+        width: 1600
+        height: 1600
+      svg:
+        optimize: true
+
+# --- Utdataformat -----------------------------------------------------------
+# quote: double är OBLIGATORISKT. Utan det skrivs `time: 18:00`, vilket YAML
+# tolkar som talet 1080. Se även datumsorteringen i .eleventy.js.
+output:
+  omit_empty_optional_fields: true
+  yaml:
+    quote: double
+    indent_size: 2
+    indent_sequences: true
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  lowercase: true
+  timezone: utc
+
+collections:
+  # ===========================================================================
+  # Händer i kyrkan
+  # ===========================================================================
+  - name: hander_i_kyrkan
+    label: Händer i kyrkan
+    label_singular: Händelse
+    description: >-
+      Enskilda händelser. Visas på startsidan och under "Händer i kyrkan".
+    folder: src/content/pages/hander-i-kyrkan
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    slug: "{{year}}{{month}}{{day}}_{{slug}}"
+    filter: { field: title, pattern: "." } # döljer mappens README.md
+    summary: "{{date}} - {{title}}"
+    sortable_fields: [date, title]
+    preview_path: "hander-i-kyrkan/{{slug}}/"
+    preview_path_date_field: date
+    thumbnail: img
+    fields:
+      - name: title
+        label: Rubrik
+        widget: string
+        required: true
+      - name: puff
+        label: Puff
+        widget: string
+        required: true
+        hint: En kort mening som visas i kortet på startsidan.
+      - name: date
+        label: Datum
+        widget: datetime
+        type: date
+        picker_utc: true
+        required: true
+      - name: time
+        label: Tid
+        widget: string
+        required: false
+        hint: "T.ex. 10:00 eller 18:00-21:00. Lämna tomt om tiden inte är bestämd."
+      - name: expires
+        label: Visas till och med
+        widget: datetime
+        type: date
+        picker_utc: true
+        required: false
+        hint: >-
+          Lämna tomt - då försvinner händelsen automatiskt dagen efter datumet
+          ovan. Fyll bara i om den ska ligga kvar längre.
+      - name: img
+        label: Bild
+        widget: image
+        required: false
+        hint: >-
+          Valfri. Utan bild väljs automatiskt en av kyrkans standardbilder.
+          Välj inte en bild ur mappen "hander-i-kyrkan-default".
+      - name: body
+        label: Innehåll
+        widget: markdown
+        required: false
+        hint: Beskrivning av händelsen. Visas på händelsens egen sida.
+
+  # ===========================================================================
+  # Verksamheter
+  # ===========================================================================
+  - name: verksamheter
+    label: Verksamheter
+    label_singular: Verksamhet
+    description: >-
+      Återkommande verksamheter. Visas som kort på startsidan och på
+      /verksamheter.
+    folder: src/content/pages/verksamheter
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    slug: "{{slug}}"
+    filter: { field: title, pattern: "." }
+    summary: "{{title}}"
+    sortable_fields: [order, title]
+    preview_path: "verksamheter/{{slug}}/"
+    fields:
+      - name: title
+        label: Namn
+        widget: string
+        required: true
+      - name: puff
+        label: Puff
+        widget: string
+        required: false
+        hint: En kort mening som beskriver verksamheten.
+      - name: readmore
+        label: Läs mer-text
+        widget: string
+        required: false
+        hint: 'Texten på länken till undersidan, t.ex. "Om vårt stickcafé".'
+      - name: order
+        label: Sorteringsnummer
+        widget: number
+        value_type: int
+        required: false
+        hint: Lägre nummer visas först. Lämna tomt för att hamna sist.
+      - name: layout
+        label: Mall
+        widget: hidden
+        default: article.njk
+      - name: body
+        label: Innehåll
+        widget: markdown
+        modes: [raw]
+        required: false
+        hint: >-
+          Redigeras som ren Markdown/HTML. Rör inte HTML-taggar du inte känner
+          igen - de behövs för sidans utseende.
+
+  # ===========================================================================
+  # Sidor - fasta sidor, kan redigeras men inte skapas
+  # ===========================================================================
+  - name: sidor
+    label: Sidor
+    description: >-
+      Fasta sidor. Nya sidor kan inte skapas här - kontakta webbansvarig.
+    files:
+      - name: om_oss_vision
+        label: "Om oss: Vision"
+        file: src/content/pages/om-oss/vision.md
+        preview_path: "om-oss/vision/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: base.njk }
+          - &body_raw
+            name: body
+            label: Innehåll
+            widget: markdown
+            modes: [raw]
+            required: false
+            hint: >-
+              Redigeras som ren Markdown/HTML. Rör inte HTML-taggar du inte
+              känner igen - de behövs för sidans utseende.
+
+      - name: om_oss_medlemskap
+        label: "Om oss: Medlemskap"
+        file: src/content/pages/om-oss/medlemskap.md
+        preview_path: "om-oss/medlemskap/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: om_oss_mission
+        label: "Om oss: Mission"
+        file: src/content/pages/om-oss/mission.md
+        preview_path: "om-oss/mission/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: om_oss_historia
+        label: "Om oss: Vår historia"
+        file: src/content/pages/om-oss/historia.md
+        preview_path: "om-oss/historia/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: om_oss_vanforsamling
+        label: "Om oss: Vänförsamling"
+        file: src/content/pages/om-oss/vanforsamling.md
+        preview_path: "om-oss/vanforsamling/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: om_oss_medarbetare
+        label: "Om oss: Våra medarbetare"
+        file: src/content/pages/om-oss/medarbetare.md
+        preview_path: "om-oss/medarbetare/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: base.njk }
+          - *body_raw
+
+      - name: tjanst_forsamlingsforestandare
+        label: "Lediga tjänster: Församlingsföreståndare"
+        file: src/content/pages/om-oss/lediga-tjanster/forsamlingsforestandare.md
+        preview_path: "om-oss/lediga-tjanster/forsamlingsforestandare/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: tjanst_ungdomsledare
+        label: "Lediga tjänster: Ungdomsledare/pastor"
+        file: src/content/pages/om-oss/lediga-tjanster/ungdomsledare.md
+        preview_path: "om-oss/lediga-tjanster/ungdomsledare/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: kontakt_ge_en_gava
+        label: "Kontakta oss: Ge en gåva"
+        file: src/content/pages/kontakta-oss/ge-en-gava.md
+        preview_path: "kontakta-oss/ge-en-gava/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: content.njk }
+          - *body_raw
+
+      - name: kontakt_gnosjo_hjalper
+        label: "Kontakta oss: Gnosjö Hjälper"
+        file: src/content/pages/kontakta-oss/gnosjo-hjalper.md
+        preview_path: "kontakta-oss/gnosjo-hjalper/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
+      - name: kontakt_uthyrning
+        label: "Kontakta oss: Uthyrning"
+        file: src/content/pages/kontakta-oss/uthyrning.md
+        preview_path: "kontakta-oss/uthyrning/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
