@@ -6,7 +6,7 @@
 backend:
   name: github
   repo: gnosjomk/gnmk-worker
-  branch: sveltia # TODO: byt till master vid driftsättning
+  branch: master
   # Inloggning kräver OAuth-endpointen i src/index.ts (ej byggd ännu).
   # Tills dess: testa lokalt via knappen "Work with Local Repository".
   base_url: https://www.gnosjomk.se

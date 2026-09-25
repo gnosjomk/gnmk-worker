@@ -455,11 +455,14 @@ async function handleCmsCallback(request: Request, env: Env): Promise<Response> 
         "Content-Type": "application/json",
         "User-Agent": "gnmk-worker",
       },
+      // No redirect_uri here, deliberately. GitHub validates it at the
+      // /authorize step against the registered callback URL; repeating it at
+      // the token step only adds a second exact-string comparison that fails
+      // if the request arrives on a different host (apex vs www, workers.dev).
       body: JSON.stringify({
         code,
         client_id: env.GITHUB_CLIENT_ID,
         client_secret: env.GITHUB_CLIENT_SECRET,
-        redirect_uri: `${url.origin}/api/auth/github/callback`,
       }),
     });
   } catch (err) {
@@ -478,11 +481,26 @@ async function handleCmsCallback(request: Request, env: Env): Promise<Response> 
   let error: string | undefined;
 
   try {
-    const data = await response.json() as { access_token?: string; error?: string };
+    const data = await response.json() as {
+      access_token?: string;
+      error?: string;
+      error_description?: string;
+    };
     token = data.access_token;
-    error = data.error;
+    error = data.error_description || data.error;
+
+    if (!token) {
+      // Sveltia shows a generic localised message keyed on errorCode, so the
+      // only place GitHub's actual reason is visible is the Worker log.
+      // Watch it with: npx wrangler tail
+      console.error("GitHub token exchange failed", {
+        status: response.status,
+        error: data.error,
+        error_description: data.error_description,
+      });
+    }
   } catch (err) {
-    console.error(err);
+    console.error("GitHub token response was not JSON", err);
     return cmsResultPage({
       error: "Server responded with malformed data. Please try again later.",
       errorCode: "MALFORMED_RESPONSE",
