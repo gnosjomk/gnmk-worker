@@ -262,6 +262,15 @@ collections:
           - { name: layout, label: Mall, widget: hidden, default: article.njk }
           - *body_raw
 
+      - name: kontakt
+        label: "Kontakta oss"
+        file: src/content/pages/kontakta-oss/index.njk
+        preview_path: "kontakta-oss/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
+          - *body_raw
+
       - name: kontakt_ge_en_gava
         label: "Kontakta oss: Ge en gåva"
         file: src/content/pages/kontakta-oss/ge-en-gava.md
