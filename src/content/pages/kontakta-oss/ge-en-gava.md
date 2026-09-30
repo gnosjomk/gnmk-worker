@@ -1,6 +1,6 @@
 ---
-layout: content.njk
-title: Ge en gåva
+title: "Ge en gåva"
+layout: "content.njk"
 ---
 
 # Vår tro är att livet är en gåva från Gud
@@ -24,8 +24,8 @@ Församlingen är organiserad som förening enligt svensk föreningsmodell. Det 
 Om du vill ge en gåva i form av pengar kan du använd vårt kontonummer, bankgiro eller ge via Swish:
 
 ### Kontoöverföring
-Det går att göra en överföring från ditt konto till församlingens konto på Swedbank.
-Kontonumret är: 8417-8 14 715 427-2.
+Det går att göra en överföring från ditt konto till församlingens konto på Tranemo Sparbank.
+Kontonumret är: 8464-0, 174 272 725-6
  
 Du kan välja att göra manuella överföringar när det passar dig eller lägga in en automatisk överföring från ditt konto. Du kan själv göra detta via Internetbanken eller prata med din bankman så hjälper de dig. Som text på överföringen kan du skriva offer eller kollekt så vet vi vad det är till. OBS! Vid kontoöverföring ger du gåvan anonymt!
  
