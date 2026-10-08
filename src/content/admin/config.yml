@@ -297,3 +297,12 @@ collections:
           - { name: title, label: Sidtitel, widget: string }
           - { name: layout, label: Mall, widget: hidden, default: article.njk }
           - *body_raw
+
+      - name: kontakt_uthyrning
+        label: "Dragningslista UV-scouts adventskalender"
+        file: src/content/pages/dragningslista-uv-scouts-adventskalender.md
+        preview_path: "dragningslista-uv-scouts-adventskalender/"
+        fields:
+          - { name: title, label: Sidtitel, widget: string }
+          - { name: layout, label: Mall, widget: hidden, default: base.njk }
+          - *body_raw
