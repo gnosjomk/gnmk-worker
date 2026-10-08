@@ -304,5 +304,5 @@ collections:
         preview_path: "dragningslista-uv-scouts-adventskalender/"
         fields:
           - { name: title, label: Sidtitel, widget: string }
-          - { name: layout, label: Mall, widget: hidden, default: base.njk }
+          - { name: layout, label: Mall, widget: hidden, default: article.njk }
           - *body_raw
