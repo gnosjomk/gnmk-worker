@@ -1,5 +1,5 @@
 ---
 title: "Dragningslista UV-scouts adventskalender"
-layout: "base.njk"
+layout: "article.njk"
 eleventyExcludeFromCollections: true
 ---
