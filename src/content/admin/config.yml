@@ -298,7 +298,7 @@ collections:
           - { name: layout, label: Mall, widget: hidden, default: article.njk }
           - *body_raw
 
-      - name: kontakt_uthyrning
+      - name: dragningslista
         label: "Dragningslista UV-scouts adventskalender"
         file: src/content/pages/dragningslista-uv-scouts-adventskalender.md
         preview_path: "dragningslista-uv-scouts-adventskalender/"
