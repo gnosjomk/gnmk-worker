@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2023-01-29
 speaker: "Lars-Gunnar Jonsson"
 file:

@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2023-03-12
 speaker: "Sara Linnarsson"
 file:

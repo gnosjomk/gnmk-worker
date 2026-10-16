@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Ordet"
 date: 2018-09-16
 speaker: "Bo Zandén"

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Enighet i Kristus"
 date: 2019-09-22
 speaker: "Marianne Häggkvist"

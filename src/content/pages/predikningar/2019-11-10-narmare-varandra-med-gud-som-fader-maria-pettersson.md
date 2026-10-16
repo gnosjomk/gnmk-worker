@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare varandra, med Gud som fader"
 date: 2019-11-10
 speaker: "Maria Pettersson"

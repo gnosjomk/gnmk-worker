@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-01-16
 speaker: "Andreas Grumsén"
 file:

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En gåvobaserad församling"
 date: 2021-12-12
 speaker: "Andreas Grumsén"

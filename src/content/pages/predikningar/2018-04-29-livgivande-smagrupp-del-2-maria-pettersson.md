@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Livgivande smågrupp, Del 2"
 date: 2018-04-29
 speaker: "Maria Pettersson"

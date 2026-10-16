@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare varandra, med himlen som hemland"
 date: 2019-11-03
 speaker: "Maria Pettersson"

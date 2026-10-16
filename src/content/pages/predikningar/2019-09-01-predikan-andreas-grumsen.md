@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-09-01
 speaker: "Andreas Grumsén"
 file:

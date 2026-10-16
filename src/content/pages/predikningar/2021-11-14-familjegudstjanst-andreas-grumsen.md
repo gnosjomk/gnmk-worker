@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Familjegudstjänst"
 date: 2021-11-14
 speaker: "Andreas Grumsén"

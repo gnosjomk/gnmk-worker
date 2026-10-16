@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En församling med livsnära smågrupper"
 date: 2021-10-10
 speaker: "Jonas Melin"

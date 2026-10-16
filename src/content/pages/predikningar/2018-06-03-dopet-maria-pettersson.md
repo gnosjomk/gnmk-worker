@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Dopet"
 date: 2018-06-03
 speaker: "Maria Pettersson"

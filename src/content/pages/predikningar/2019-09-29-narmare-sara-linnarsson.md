@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare"
 date: 2019-09-29
 speaker: "Sara Linnarsson"

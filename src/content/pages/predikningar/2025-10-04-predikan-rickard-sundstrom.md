@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2025-10-04
 speaker: "Rickard Sundström"
 file:

@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2025-01-26
 speaker: "Ingmar Karlsson"
 file:

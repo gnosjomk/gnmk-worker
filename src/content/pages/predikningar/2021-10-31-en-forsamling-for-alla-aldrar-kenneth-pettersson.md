@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En församling för alla åldrar"
 date: 2021-10-31
 speaker: "Kenneth Pettersson"

@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2020-09-06
 speaker: "Andreas Grumsén"
 file:

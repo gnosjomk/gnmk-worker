@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-04-18
 speaker: "Maria Pettersson"
 file:

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Goda förvaltare"
 date: 2018-07-29
 speaker: "Mikael Nilsson"

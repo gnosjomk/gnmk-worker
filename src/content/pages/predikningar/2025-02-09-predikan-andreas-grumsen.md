@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2025-02-09
 speaker: "Andreas Grumsén"
 file:

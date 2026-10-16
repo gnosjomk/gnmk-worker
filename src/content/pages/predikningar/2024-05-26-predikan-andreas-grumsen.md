@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2024-05-26
 speaker: "Andreas Grumsén"
 file:

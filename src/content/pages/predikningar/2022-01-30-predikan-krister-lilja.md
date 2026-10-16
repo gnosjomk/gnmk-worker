@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-01-30
 speaker: "Krister Lilja"
 file:

@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-08-21
 speaker: "Gabriella Enblom"
 file:

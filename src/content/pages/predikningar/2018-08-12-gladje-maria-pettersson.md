@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Glädje"
 date: 2018-08-12
 speaker: "Maria Pettersson"

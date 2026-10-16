@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Familjegudstjänst"
 date: 2018-10-14
 speaker: "Maria Pettersson"

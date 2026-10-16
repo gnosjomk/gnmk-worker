@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare varandra i en frigörande gemenskap"
 date: 2019-10-13
 speaker: "Andreas Grumsén"

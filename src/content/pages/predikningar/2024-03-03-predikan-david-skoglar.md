@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2024-03-03
 speaker: "David Skoglar"
 file:

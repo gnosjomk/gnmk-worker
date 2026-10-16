@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Vem tror vi Gud är"
 date: 2018-11-25
 speaker: "Maria Pettersson"

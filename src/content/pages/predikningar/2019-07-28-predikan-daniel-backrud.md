@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-07-28
 speaker: "Daniel Bäckrud"
 file:

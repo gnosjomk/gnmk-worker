@@ -80,9 +80,7 @@ function createMemberFileItem(file) {
     const title = file.title || file.file;
     const date = formatDateISO(file.date);
 
-    const encodedFile = encodeURIComponent(file.file);
-    const fileUrl = MEMBER_FILES_BASE_URL + encodedFile;
-    item.dataset.href = fileUrl;
+    item.dataset.href = memberFileUrl(file.file);
     item.tabIndex = 0;
     item.setAttribute("role", "link");
 
@@ -92,6 +90,19 @@ function createMemberFileItem(file) {
     `;
 
     return item;
+}
+
+// Older entries hold a bare filename; the CMS writes an absolute URL
+// ("https://www.gnosjomk.se/api/file/members/..."). Same logic as the
+// fileUrl filter in .eleventy.js.
+function memberFileUrl(value) {
+    if (!value) return "";
+    if (/^https?:\/\//.test(value)) {
+        const url = new URL(value);
+        return url.pathname + url.search;
+    }
+    if (value.startsWith("/")) return value;
+    return MEMBER_FILES_BASE_URL + encodeURIComponent(value);
 }
 
 function formatDateISO(dateString) {

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Låt ditt rike komma"
 date: 2018-11-03
 speaker: "Bo Zandén"

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Gud har gett oss ett uppdrag"
 date: 2018-07-01
 speaker: "Bo Zandén"

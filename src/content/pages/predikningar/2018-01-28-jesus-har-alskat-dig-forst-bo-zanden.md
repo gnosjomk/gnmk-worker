@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Jesus har älskat dig först"
 date: 2018-01-28
 speaker: "Bo Zandén"

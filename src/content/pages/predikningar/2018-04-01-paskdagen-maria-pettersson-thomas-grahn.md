@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Påskdagen"
 date: 2018-04-01
 speaker: "Maria Pettersson & Thomas Grahn"

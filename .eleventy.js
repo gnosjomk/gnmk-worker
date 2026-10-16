@@ -64,11 +64,6 @@ module.exports = function(eleventyConfig) {
     return "/utsikt/";
   });
 
-  eleventyConfig.addFilter("uriComponent", function(value) {
-    if (value === null || value === undefined) return "";
-    return encodeURIComponent(value.toString());
-  });
-
   // Accept both a bare filename ("stickcafe.png", as older files and the
   // deterministic fallback store it) and a root-absolute path ("/images/x.webp",
   // as the CMS writes it).
@@ -77,6 +72,21 @@ module.exports = function(eleventyConfig) {
     const v = String(value);
     if (/^(https?:)?\/\//.test(v) || v.startsWith("data:")) return v;
     return "/images/" + v.replace(/^\/?(images\/)?/, "");
+  });
+
+  // Link to a file in R2. Accepts both a bare filename (older entries, which
+  // are resolved against legacyFolder) and the absolute URL the CMS writes
+  // ("https://www.gnosjomk.se/api/file/public/..."). The origin is dropped so
+  // links also work on preview deployments and in local development.
+  eleventyConfig.addFilter("fileUrl", function(value, legacyFolder) {
+    if (!value) return "";
+    const v = String(value);
+    if (/^https?:\/\//.test(v)) {
+      const url = new URL(v);
+      return url.pathname + url.search;
+    }
+    if (v.startsWith("/")) return v;
+    return "/api/file/" + legacyFolder.replace(/^\/|\/$/g, "") + "/" + encodeURIComponent(v);
   });
 
   // Pick a random image from images/hander-i-kyrkan-default/ at build time

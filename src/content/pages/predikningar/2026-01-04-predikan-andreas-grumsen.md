@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2026-01-04
 speaker: "Andreas Grumsén"
 file:

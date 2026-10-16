@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Håll elden brinnande"
 date: 2018-04-15
 speaker: "Cornelia Forsberg"

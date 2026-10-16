@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Guds tempel"
 date: 2022-01-02
 speaker: "Bengt Svensson"

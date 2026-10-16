@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare varandra, i en sårbar gemenskap"
 date: 2019-11-17
 speaker: "Andreas Grumsén"

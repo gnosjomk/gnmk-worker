@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Marias lovprisning"
 date: 2021-10-24
 speaker: "Andreas Grumsén"

@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-03-13
 speaker: "Bengt Svensson"
 file:

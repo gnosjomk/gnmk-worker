@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Rik inför Gud"
 date: 2018-09-23
 speaker: "Per-Åke Hermansson"

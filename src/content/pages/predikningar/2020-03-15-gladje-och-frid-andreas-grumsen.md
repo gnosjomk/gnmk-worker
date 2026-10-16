@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Glädje och frid"
 date: 2020-03-15
 speaker: "Andreas Grumsén"

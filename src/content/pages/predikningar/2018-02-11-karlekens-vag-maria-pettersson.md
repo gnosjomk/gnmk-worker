@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Kärlekens väg"
 date: 2018-02-11
 speaker: "Maria Pettersson"

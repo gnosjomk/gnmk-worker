@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Människa skapad till Guds avbild"
 date: 2018-11-11
 speaker: "Maria Pettersson"

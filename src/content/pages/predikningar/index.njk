@@ -22,8 +22,8 @@ order: 4
         {% for sermon in sermons %}
           <tr data-href="{{ sermon.url }}" tabindex="0" role="link">
             <td>{{ sermon.data.date | isoDate }}</td>
-            <td>{{ sermon.data.speaker if sermon.data.speaker else "" }}</td>
             <td><b>{{ sermon.data.title if sermon.data.title else "" }}</b></td>
+            <td>{{ sermon.data.speaker if sermon.data.speaker else "" }}</td>
           </tr>
         {% endfor %}
       </tbody>

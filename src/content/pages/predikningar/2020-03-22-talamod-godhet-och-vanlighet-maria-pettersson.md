@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Tålamod, godhet och vänlighet"
 date: 2020-03-22
 speaker: "Maria Pettersson"

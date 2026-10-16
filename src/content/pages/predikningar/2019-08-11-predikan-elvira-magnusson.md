@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-08-11
 speaker: "Elvira Magnusson"
 file:

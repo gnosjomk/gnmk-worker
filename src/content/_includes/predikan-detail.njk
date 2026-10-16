@@ -10,14 +10,16 @@ layout: base.njk
     {% if speaker %} • {{ speaker }}{% endif %}
   </p>
 
+  {% set audioUrl = file | fileUrl("public/predikningar/ljudfiler") %}
+
   <audio controls preload="none">
-    <source src="/api/file/public/predikningar/ljudfiler/{{ file | uriComponent }}" type="audio/mpeg">
+    <source src="{{ audioUrl }}" type="audio/mpeg">
     Din webbläsare stöder inte ljudspelaren.
   </audio>
 
   <div>
-    <a href="/api/file/public/predikningar/ljudfiler/{{ file | uriComponent }}" download>
-      <b>Ladda ner PDF &rsaquo;</b>
+    <a href="{{ audioUrl }}" download>
+      <b>Ladda ner ljudfil &rsaquo;</b>
     </a>
   </div>
 

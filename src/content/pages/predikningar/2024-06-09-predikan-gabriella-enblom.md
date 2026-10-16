@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2024-06-09
 speaker: "Gabriella Enblom"
 file:

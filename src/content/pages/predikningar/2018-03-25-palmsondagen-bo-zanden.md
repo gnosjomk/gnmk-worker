@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Palmsöndagen"
 date: 2018-03-25
 speaker: "Bo Zandén"

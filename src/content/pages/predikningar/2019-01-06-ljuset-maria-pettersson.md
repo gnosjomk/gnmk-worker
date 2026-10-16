@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Ljuset"
 date: 2019-01-06
 speaker: "Maria Pettersson"

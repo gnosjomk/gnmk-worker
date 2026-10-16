@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2020-01-19
 speaker: "Maria Pettersson"
 file:

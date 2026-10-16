@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2024-03-10
 speaker: "David Johansson"
 file:

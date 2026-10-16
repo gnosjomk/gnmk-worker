@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-11-13
 speaker: "Alexander Bervebrink"
 file:

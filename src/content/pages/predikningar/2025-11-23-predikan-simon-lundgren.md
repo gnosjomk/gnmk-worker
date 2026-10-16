@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2025-11-23
 speaker: "Simon Lundgren"
 file:

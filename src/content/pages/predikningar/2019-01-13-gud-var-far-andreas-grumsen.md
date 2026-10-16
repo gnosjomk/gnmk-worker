@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Gud vår Far"
 date: 2019-01-13
 speaker: "Andreas Grumsén"

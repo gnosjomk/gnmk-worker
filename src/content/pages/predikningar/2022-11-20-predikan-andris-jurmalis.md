@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-11-20
 speaker: "Andris Jurmalis"
 file:

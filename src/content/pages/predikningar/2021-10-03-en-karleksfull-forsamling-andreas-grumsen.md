@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En kärleksfull församling"
 date: 2021-10-03
 speaker: "Andreas Grumsén"

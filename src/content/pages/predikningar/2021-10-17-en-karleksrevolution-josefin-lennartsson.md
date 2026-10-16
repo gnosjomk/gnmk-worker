@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En kärleksrevolution"
 date: 2021-10-17
 speaker: "Josefin Lennartsson"

@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Salomos bön"
 date: 2018-08-05
 speaker: "Arne Henrysson"

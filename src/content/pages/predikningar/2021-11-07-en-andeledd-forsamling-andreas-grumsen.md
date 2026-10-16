@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "En Andeledd församling"
 date: 2021-11-07
 speaker: "Andreas Grumsén"

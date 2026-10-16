@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2023-02-19
 speaker: "Andreas Grumsén"
 file:

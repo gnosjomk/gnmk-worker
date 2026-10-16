@@ -7,11 +7,15 @@ This is a **Cloudflare Worker** serving a church website (Gnosjö Missionskyrka)
 1. **Static site (Eleventy/11ty):** Markdown and Nunjucks pages in `src/content/pages/` are built into `_site/` and served as Worker static assets.
 2. **Worker API (`src/index.ts`):** Handles authentication and protected file access. Routes:
    - `/api/auth/{login,logout,check}` — session-based auth using KV
-   - `/api/file/{path}` — serves files from R2; `members/` paths require auth
+   - `/api/file/{path}` — serves files from R2 (supports `Range` and `HEAD`); `members/` paths require auth
+   - `/data/member-files.json` — static asset gated behind auth (`assets.run_worker_first` + `MEMBERS_ONLY_ASSETS`)
+   - `scheduled` — nightly one-way backup of `FILE_BUCKET` into `BACKUP_BUCKET` (never deletes)
 
 **Cloudflare bindings:**
 - `SESSIONS_KV` (KV) — sessions and rate-limit data
-- `FILE_BUCKET` (R2) — file storage with `public/` and `members/` prefixes
+- `FILE_BUCKET` (R2) — file storage with `public/` and `members/` prefixes; Sveltia CMS uploads here directly
+- `BACKUP_BUCKET` (R2) — backup copy of `FILE_BUCKET`; replaced versions kept under `_ersatta/<date>/`
+- `ASSETS` — the built Eleventy site
 - `GNMK_MEMBERS_PASSWORD` (secret) — shared password for member login
 
 The Wrangler build step runs `npm run build` (Eleventy) before deploying, so the static site and Worker are deployed together.
@@ -43,7 +47,9 @@ import { env, createExecutionContext, SELF } from 'cloudflare:test';
 - Pages: `src/content/pages/` (Markdown/Nunjucks, uses `pages.json` for default layout)
 - Layouts: `src/content/_includes/` (Nunjucks partials: `base.njk`, `header.njk`, etc.)
 - Static assets: `src/content/{styles,scripts,images}/` (passed through to `_site/`)
-- Collections are defined in `.eleventy.js`: `activities`, `news`, `pages` — sorted by `order` or `date` frontmatter
+- Collections are defined in `.eleventy.js`: `activities`, `news`, `pages`, `utsikt`, `predikningar` — sorted by `order` or `date` frontmatter
+- Utsikt titles are computed from `number`, `theme` and `date` in `utsikt/utsikt.11tydata.js`
+- R2-hosted files are linked with the `fileUrl` filter, which accepts both legacy bare filenames and the absolute URLs Sveltia CMS writes
 
 News items support an `expires` frontmatter field (items past expiry are excluded from the collection).
 

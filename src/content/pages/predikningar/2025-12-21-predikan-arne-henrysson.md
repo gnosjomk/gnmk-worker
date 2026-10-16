@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2025-12-21
 speaker: "Arne Henrysson"
 file:

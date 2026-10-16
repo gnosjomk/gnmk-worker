@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-07-14
 speaker: "David Johansson"
 file:

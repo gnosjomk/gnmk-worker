@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 date: 2026-01-11
 speaker: "Hannes Lindström"
 file:

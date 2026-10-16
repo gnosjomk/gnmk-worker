@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Jesus skapar tro"
 date: 2018-01-21
 speaker: "Maria Pettersson"

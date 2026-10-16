@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2023-03-19
 speaker: "Gabriella Enblom"
 file:

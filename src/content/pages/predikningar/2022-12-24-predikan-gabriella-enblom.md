@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-12-24
 speaker: "Gabriella Enblom"
 file:

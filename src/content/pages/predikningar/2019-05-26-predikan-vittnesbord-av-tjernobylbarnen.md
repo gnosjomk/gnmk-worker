@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2019-05-26
 speaker: "Vittnesbörd av Tjernobylbarnen"
 file:

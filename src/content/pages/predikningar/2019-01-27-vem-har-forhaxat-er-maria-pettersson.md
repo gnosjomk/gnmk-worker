@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Vem har förhäxat er"
 date: 2019-01-27
 speaker: "Maria Pettersson"

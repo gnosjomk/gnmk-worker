@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Första advent"
 date: 2021-11-28
 speaker: "Bengt Svensson"

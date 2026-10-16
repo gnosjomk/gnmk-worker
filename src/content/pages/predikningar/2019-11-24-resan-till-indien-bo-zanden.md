@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Resan till Indien"
 date: 2019-11-24
 speaker: "Bo Zandén"

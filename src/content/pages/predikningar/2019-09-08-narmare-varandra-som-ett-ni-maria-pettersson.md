@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Närmare varandra som ett ni"
 date: 2019-09-08
 speaker: "Maria Pettersson"

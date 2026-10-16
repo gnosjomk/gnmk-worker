@@ -1,5 +1,6 @@
 ---
-title: "Utsikt #2 2025: Spår av Gud"
+number: 2
+theme: "Spår av Gud"
 file: "2025 nr. 2.pdf"
 date: 2025-06-01
 ---

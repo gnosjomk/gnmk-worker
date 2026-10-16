@@ -1,6 +1,4 @@
 ---
-layout: predikan-detail.njk
-
 date: 2022-09-04
 speaker: "Simon Manfredsson"
 file:

@@ -7,6 +7,8 @@ interface Env {
   RATE_LIMIT_REQUESTS_PER_MINUTE?: string;
   SESSIONS_KV: KVNamespace;
   FILE_BUCKET: R2Bucket;
+  BACKUP_BUCKET: R2Bucket;
+  ASSETS: Fetcher;
   // Sveltia CMS - GitHub OAuth
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
@@ -30,9 +32,15 @@ const CONFIG = {
 
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Methods": "GET, HEAD, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, Range",
+  "Access-Control-Expose-Headers": "Content-Length, Content-Range, Accept-Ranges, ETag",
 };
+
+// Static assets that only logged-in members may fetch. Each path must also be
+// listed in assets.run_worker_first in wrangler.jsonc, or the asset is served
+// before the Worker gets a chance to check the session.
+const MEMBERS_ONLY_ASSETS = ["/data/member-files.json"];
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -62,6 +70,10 @@ export default {
         return handleFileRequest(request, env, path);
       }
 
+      if (MEMBERS_ONLY_ASSETS.includes(path)) {
+        return handleMembersOnlyAsset(request, env);
+      }
+
       return new Response("Not Found", { status: 404 });
 
     } catch (err) {
@@ -69,7 +81,25 @@ export default {
       return jsonResponse({ error: "Internal server error" }, 500);
     }
   },
+
+  async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil(
+      backupFiles(env).then(result => console.log("R2 backup", result))
+    );
+  },
 };
+
+async function handleMembersOnlyAsset(request: Request, env: Env): Promise<Response> {
+  const auth = await verifySession(request, env);
+  if (!auth.valid) {
+    return jsonResponse({ error: "Not authenticated" }, 401);
+  }
+
+  const asset = await env.ASSETS.fetch(request);
+  const res = new Response(asset.body, asset);
+  res.headers.set("Cache-Control", "private, no-store");
+  return res;
+}
 
 ////////////////////////////////////////////////////////
 // AUTH
@@ -98,8 +128,13 @@ async function login(request: Request, env: Env): Promise<Response> {
     );
   }
 
-  const body = await request.json();
-  const password = body.password;
+  let password: unknown;
+  try {
+    const body = await request.json<{ password?: unknown }>();
+    password = body?.password;
+  } catch {
+    return jsonResponse({ error: "Invalid request body" }, 400);
+  }
 
   if (password !== env.GNMK_MEMBERS_PASSWORD) {
     await updateRateLimit(env.SESSIONS_KV, clientIP);
@@ -183,7 +218,7 @@ async function handleFileRequest(
   path: string
 ): Promise<Response> {
 
-  if (request.method !== "GET") {
+  if (request.method !== "GET" && request.method !== "HEAD") {
     return jsonResponse({ error: "Method not allowed" }, 405);
   }
 
@@ -200,7 +235,11 @@ async function handleFileRequest(
     }
   }
 
-  const object = await env.FILE_BUCKET.get(key);
+  // Range support lets the audio player seek in long sermons (Safari will not
+  // play audio at all without it). R2 parses the Range header itself.
+  const object = request.method === "HEAD"
+    ? await env.FILE_BUCKET.head(key)
+    : await env.FILE_BUCKET.get(key, { range: request.headers });
 
   if (!object) {
     return jsonResponse({ error: "File not found" }, 404);
@@ -212,13 +251,135 @@ async function handleFileRequest(
     "Content-Type",
     object.httpMetadata?.contentType || "application/octet-stream"
   );
+  headers.set("Accept-Ranges", "bytes");
+  headers.set("ETag", object.httpEtag);
+  headers.set(
+    "Cache-Control",
+    key.startsWith("members/") ? "private, no-store" : "public, max-age=3600"
+  );
+
+  const range = request.method === "GET" && request.headers.has("Range")
+    ? resolveRange(object.range, object.size)
+    : undefined;
+
+  if (range) {
+    headers.set("Content-Range", `bytes ${range.start}-${range.end}/${object.size}`);
+    headers.set("Content-Length", (range.end - range.start + 1).toString());
+    return new Response((object as R2ObjectBody).body, { status: 206, headers });
+  }
 
   headers.set("Content-Length", object.size.toString());
 
-  return new Response(object.body, {
+  return new Response(request.method === "HEAD" ? null : (object as R2ObjectBody).body, {
     status: 200,
     headers,
   });
+}
+
+/** R2 reports the served range in one of three shapes; normalise to bytes. */
+function resolveRange(range: R2Range | undefined, size: number) {
+  if (!range) return undefined;
+
+  let start: number;
+  let length: number;
+
+  if ("suffix" in range && range.suffix !== undefined) {
+    length = Math.min(range.suffix, size);
+    start = size - length;
+  } else {
+    start = (range as { offset?: number }).offset ?? 0;
+    length = (range as { length?: number }).length ?? size - start;
+  }
+
+  return { start, end: Math.min(start + length, size) - 1 };
+}
+
+////////////////////////////////////////////////////////
+// R2 BACKUP
+//
+// Nightly one-way copy of FILE_BUCKET into BACKUP_BUCKET. Nothing is ever
+// deleted from the backup, so a file deleted by mistake in the CMS can be
+// restored. When a file is replaced, the previous backup copy is kept under
+// REPLACED_PREFIX/<date>/<key> before the new version is copied in.
+//
+// Each run copies at most BACKUP_MAX_COPIES files to stay well inside the
+// per-invocation limits; anything left over is picked up by the next run.
+////////////////////////////////////////////////////////
+
+const REPLACED_PREFIX = "_ersatta/";
+const BACKUP_MAX_COPIES = 100;
+
+async function listAll(bucket: R2Bucket, include?: ("customMetadata")[]): Promise<R2Object[]> {
+  const objects: R2Object[] = [];
+  let cursor: string | undefined;
+
+  do {
+    const page = await bucket.list({ cursor, include, limit: 1000 });
+    objects.push(...page.objects);
+    cursor = page.truncated ? page.cursor : undefined;
+  } while (cursor);
+
+  return objects;
+}
+
+async function copyObject(
+  from: R2Bucket,
+  fromKey: string,
+  to: R2Bucket,
+  toKey: string,
+  customMetadata: Record<string, string>
+): Promise<boolean> {
+  const object = await from.get(fromKey);
+  if (!object) return false;
+
+  await to.put(toKey, object.body.pipeThrough(new FixedLengthStream(object.size)), {
+    httpMetadata: object.httpMetadata,
+    customMetadata: { ...object.customMetadata, ...customMetadata },
+  });
+  return true;
+}
+
+export async function backupFiles(env: Pick<Env, "FILE_BUCKET" | "BACKUP_BUCKET">) {
+  const [sources, backups] = await Promise.all([
+    listAll(env.FILE_BUCKET),
+    listAll(env.BACKUP_BUCKET, ["customMetadata"]),
+  ]);
+
+  // The source ETag is stored on the copy because a re-uploaded copy can get
+  // a different ETag than the original (multipart uploads).
+  const backedUp = new Map(
+    backups
+      .filter(o => !o.key.startsWith(REPLACED_PREFIX))
+      .map(o => [o.key, o.customMetadata?.sourceEtag])
+  );
+
+  const today = new Date().toISOString().slice(0, 10);
+  const result = { copied: 0, replaced: 0, pending: 0 };
+
+  for (const source of sources) {
+    const existing = backedUp.get(source.key);
+    if (backedUp.has(source.key) && existing === source.etag) continue;
+
+    if (result.copied >= BACKUP_MAX_COPIES) {
+      result.pending++;
+      continue;
+    }
+
+    if (backedUp.has(source.key)) {
+      await copyObject(
+        env.BACKUP_BUCKET, source.key,
+        env.BACKUP_BUCKET, `${REPLACED_PREFIX}${today}/${source.key}`,
+        {}
+      );
+      result.replaced++;
+    }
+
+    if (await copyObject(env.FILE_BUCKET, source.key, env.BACKUP_BUCKET, source.key, { sourceEtag: source.etag })) {
+      result.copied++;
+    }
+  }
+
+  return result;
 }
 
 ////////////////////////////////////////////////////////

@@ -21,8 +21,6 @@ backend:
     uploadMedia: 'Ladda upp "{{path}}"'
     deleteMedia: 'Ta bort "{{path}}"'
 
-publish_mode: editorial_workflow
-
 app_title: Gnosjö Missionskyrka - Redigera webbplatsen
 site_url: https://www.gnosjomk.se
 
@@ -42,6 +40,18 @@ media_libraries:
         height: 1600
       svg:
         optimize: true
+  # Utsikt, predikningar och medlemsfiler laddas upp direkt till R2-bucketen
+  # gnmk-files (inte till repot). Varje fält anger sin egen mapp med `prefix`.
+  # Secret Access Key skrivs in i CMS:et första gången och sparas bara i
+  # webbläsaren. Den får ALDRIG skrivas in här - repot är publikt.
+  # public_url pekar på Workern, så att medlemsfiler fortfarande kräver
+  # inloggning. Slå inte på publik åtkomst för bucketen.
+  cloudflare_r2:
+    access_key_id: 2ceab4ed2fb1c17e78292654c61ddd68
+    account_id: 9063f3a421fdaca8d31904d7d5743ffc
+    bucket: gnmk-files
+    public_url: https://www.gnosjomk.se/api/file
+    prefix: public/ovrigt/
 
 # --- Utdataformat -----------------------------------------------------------
 # quote: double är OBLIGATORISKT. Utan det skrivs `time: 18:00`, vilket YAML
@@ -116,6 +126,8 @@ collections:
         hint: >-
           Valfri. Utan bild väljs automatiskt en av kyrkans standardbilder.
           Välj inte en bild ur mappen "hander-i-kyrkan-default".
+        media_libraries:
+          cloudflare_r2: false
       - name: body
         label: Innehåll
         widget: markdown
@@ -173,6 +185,171 @@ collections:
         hint: >-
           Redigeras som ren Markdown/HTML. Rör inte HTML-taggar du inte känner
           igen - de behövs för sidans utseende.
+
+  # ===========================================================================
+  # Predikningar - ljudfilen laddas upp till R2
+  # ===========================================================================
+  - name: predikningar
+    label: Predikningar
+    label_singular: Predikan
+    description: Inspelade predikningar. Visas under "Predikningar".
+    folder: src/content/pages/predikningar
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    identifier_field: speaker
+    slug: "{{date | date('YYYY-MM-DD', 'utc')}}-{{fields.title | default('predikan')}}-{{speaker}}"
+    summary: "{{date | date('YYYY-MM-DD', 'utc')}} - {{speaker}} - {{fields.title | default('(utan rubrik)')}}"
+    sortable_fields: [date, speaker, title]
+    preview_path: "predikningar/{{slug}}/"
+    fields:
+      - name: title
+        label: Rubrik
+        widget: string
+        required: false
+        hint: Lämna tomt om predikan inte har någon rubrik.
+      - name: speaker
+        label: Talare
+        widget: string
+        required: true
+      - name: date
+        label: Datum
+        widget: datetime
+        type: date
+        picker_utc: true
+        required: true
+      - name: file
+        label: Ljudfil
+        widget: file
+        required: true
+        accept: audio/mpeg,.mp3
+        choose_url: false
+        media_libraries:
+          default: false
+          cloudflare_r2:
+            access_key_id: 2ceab4ed2fb1c17e78292654c61ddd68
+            account_id: 9063f3a421fdaca8d31904d7d5743ffc
+            bucket: gnmk-files
+            public_url: https://www.gnosjomk.se/api/file
+            prefix: public/predikningar/ljudfiler/
+          all:
+            max_file_size: 300000000
+      - name: body
+        label: Beskrivning
+        widget: markdown
+        required: false
+        hint: Valfri. Visas under ljudspelaren.
+
+  # ===========================================================================
+  # Utsikt - PDF:en laddas upp till R2
+  # ===========================================================================
+  - name: utsikt
+    label: Utsikt
+    label_singular: Utsikt-nummer
+    description: >-
+      Församlingsbladet. Det senaste numret visas när man klickar på "Utsikt" i
+      menyn.
+    folder: src/content/pages/utsikt
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    identifier_field: theme
+    slug: "{{date | date('YYYY', 'utc')}}-{{number}}-utsikt"
+    summary: "Utsikt #{{number}} {{date | date('YYYY', 'utc')}}: {{theme}}"
+    sortable_fields: [date]
+    preview_path: "utsikt/{{slug}}/"
+    fields:
+      - name: number
+        label: Nummer
+        widget: number
+        value_type: int
+        min: 1
+        max: 9
+        required: true
+        hint: Numret under året, t.ex. 2 för andra numret.
+      - name: theme
+        label: Tema
+        widget: string
+        required: false
+        hint: 'T.ex. "Glädje trots orostider". Rubriken blir "Utsikt #2 2026: Glädje trots orostider".'
+      - name: date
+        label: Utgivningsdatum
+        widget: datetime
+        type: date
+        picker_utc: true
+        required: true
+        hint: Året i rubriken tas från det här datumet.
+      - name: file
+        label: PDF
+        widget: file
+        required: true
+        accept: application/pdf,.pdf
+        choose_url: false
+        media_libraries:
+          default: false
+          cloudflare_r2:
+            access_key_id: 2ceab4ed2fb1c17e78292654c61ddd68
+            account_id: 9063f3a421fdaca8d31904d7d5743ffc
+            bucket: gnmk-files
+            public_url: https://www.gnosjomk.se/api/file
+            prefix: public/utsikt/pdfer/
+          all:
+            max_file_size: 100000000
+      - name: body
+        label: Beskrivning
+        widget: markdown
+        required: false
+        hint: Valfri. Visas bredvid tidningen.
+
+  # ===========================================================================
+  # Medlemsfiler - filerna laddas upp till R2 och kräver inloggning
+  # ===========================================================================
+  - name: medlemsfiler
+    label: Medlemsfiler
+    description: >-
+      Filer på medlemssidan, t.ex. styrelseprotokoll. Syns bara för inloggade
+      medlemmar.
+    files:
+      - name: medlemsfiler
+        label: Medlemsfiler
+        file: src/content/data/member-files.json
+        format: json
+        preview_path: medlem/
+        fields:
+          - name: files
+            label: Filer
+            label_singular: Fil
+            widget: list
+            root: true
+            add_to_top: true
+            collapsed: auto
+            summary: "{{date | date('YYYY-MM-DD', 'utc')}} - {{title}}"
+            fields:
+              - name: title
+                label: Titel
+                widget: string
+                required: true
+              - name: date
+                label: Datum
+                widget: datetime
+                type: date
+                picker_utc: true
+                required: true
+              - name: file
+                label: Fil
+                widget: file
+                required: true
+                choose_url: false
+                media_libraries:
+                  default: false
+                  cloudflare_r2:
+                    access_key_id: 2ceab4ed2fb1c17e78292654c61ddd68
+                    account_id: 9063f3a421fdaca8d31904d7d5743ffc
+                    bucket: gnmk-files
+                    public_url: https://www.gnosjomk.se/api/file
+                    prefix: members/member-files/
+                  all:
+                    max_file_size: 100000000
 
   # ===========================================================================
   # Sidor - fasta sidor, kan redigeras men inte skapas

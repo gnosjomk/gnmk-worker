@@ -1,5 +1,4 @@
 ---
-layout: predikan-detail.njk
 title: "Jesus förlåter"
 date: 2018-02-04
 speaker: "Bo Zandén"
