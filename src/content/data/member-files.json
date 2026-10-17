@@ -1,27 +1,32 @@
 [
   {
+    "title": "Styrelseprotokoll juni 2026",
+    "date": "2026-06-10",
+    "file": "https://www.gnosjomk.se/api/file/members/member-files/gmf-styrelseprotokoll-260610.pdf"
+  },
+  {
     "title": "Styrelseprotokoll maj 2026",
-    "file": "GMF Styrelseprotokoll 260520.pdf",
-    "date": "2026-05-20"
+    "date": "2026-05-20",
+    "file": "GMF Styrelseprotokoll 260520.pdf"
   },
   {
     "title": "Styrelseprotokoll april 2026",
-    "file": "GMF Styrelseprotokoll 260408.pdf",
-    "date": "2026-04-08"
+    "date": "2026-04-08",
+    "file": "GMF Styrelseprotokoll 260408.pdf"
   },
   {
     "title": "Styrelseprotokoll mars 2026",
-    "file": "GMF Styrelseprotokoll 260311.pdf",
-    "date": "2026-03-11"
+    "date": "2026-03-11",
+    "file": "GMF Styrelseprotokoll 260311.pdf"
   },
   {
     "title": "Styrelseprotokoll februari 2026",
-    "file": "Protokoll 20260211 styrelsemöte Gnosjö Missionsförsamling.pdf",
-    "date": "2026-02-11"
+    "date": "2026-02-11",
+    "file": "Protokoll 20260211 styrelsemöte Gnosjö Missionsförsamling.pdf"
   },
   {
     "title": "Styrelseprotokoll januari 2026",
-    "file": "GMF Styrelseprotokoll 260114.pdf",
-    "date": "2026-01-14"
+    "date": "2026-01-14",
+    "file": "GMF Styrelseprotokoll 260114.pdf"
   }
 ]
